@@ -45,6 +45,7 @@
     ]
   },
   "devDependencies": {
+    "canvas": "^2.8.0",
     "msw": "^0.35.0"
   }
 }
