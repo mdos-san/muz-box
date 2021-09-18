@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 import "./AuthService";
 
 import React from "react";

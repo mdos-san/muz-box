@@ -1,24 +1,28 @@
-import { render, screen, wait, waitFor } from "@testing-library/react";
-import jwt from "jsonwebtoken";
-import { rest } from "msw";
-import { setupServer } from "msw/node";
-
+import {
+  fireEvent,
+  render,
+  screen,
+  wait,
+  waitFor,
+} from "@testing-library/react";
 import App from "./App";
 
-const token = jwt.sign(
-  { id: "235370a8-d0e8-4dbe-9fbc-6e0b81c14a05" },
-  "secret"
+// Start modules used by muzbox
+import AuthFactory from "@sharp-mds/auth";
+import SocketCacheFactory from "@sharp-mds/socket-cache";
+
+const { server: authServer } = AuthFactory(4242, "test-secret", "*");
+const { server: socketCacheFactory, redisClient } = SocketCacheFactory(
+  4241,
+  null,
+  "test-secret"
 );
 
-const server = setupServer(
-  rest.get(`${process.env.REACT_APP_AUTH_URL}/anonymous`, (req, res, ctx) =>
-    res(ctx.json({ token: token }))
-  )
-);
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+afterAll(() => {
+  authServer.close();
+  redisClient.quit();
+  socketCacheFactory.close();
+});
 
 test("Title is displayed", () => {
   render(<App />);
@@ -31,23 +35,45 @@ test("Should display the uuid of the current room", async () => {
   render(<App />);
 
   await waitFor(() => {
-    const roomId = screen.getByText("235370a8-d0e8-4dbe-9fbc-6e0b81c14a05");
+    const roomId = screen.getByText(/RoomId: .*/i);
     expect(roomId).toBeInTheDocument();
+    expect(roomId.textContent.length).toBeGreaterThan(12);
   });
 });
-
-function isCanvasBlank(canvas) {
-  return !canvas.getContext('2d')
-    .getImageData(0, 0, canvas.width, canvas.height).data
-    .some(channel => channel !== 0);
-}
 
 test("Should display a QRCode in canvas", async () => {
   const { container } = render(<App />);
 
-  await waitFor(() => {
-    const canvas = container.querySelector('canvas');
+  const isCanvasBlank = (canvas) =>
+    !canvas
+      .getContext("2d")
+      .getImageData(0, 0, canvas.width, canvas.height)
+      .data.some((channel) => channel !== 0);
 
-    expect(isCanvasBlank(canvas)).toBe(false); 
+  await waitFor(() => {
+    const canvas = container.querySelector("canvas");
+
+    expect(isCanvasBlank(canvas)).toBe(false);
+  });
+});
+
+test("Should be able to add a music to the cache", async () => {
+  render(<App />);
+
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const addButton = screen.getByRole("button", { name: "Ajouter" });
+
+  // Wait for socket to connect
+  await waitFor(() => {
+    expect(screen.getByText("Socket connected")).toBeInTheDocument();
+  });
+
+  fireEvent.change(input, {
+    target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+  });
+  fireEvent.click(addButton);
+
+  await waitFor(() => {
+    expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
   });
 });
