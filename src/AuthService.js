@@ -6,7 +6,7 @@ const AuthService = () => {
   const env = runtimeEnv();
   let encodedJWT = null;
   let decodedJWT = null;
-  const { watchValue: watchJWT, setValue: setJWT } = Watcher({});
+  const [ watchJWT, setJWT ] = Watcher({});
 
   const init = async () => {
     const response = await fetch(`${env.REACT_APP_AUTH_URL}/anonymous`);

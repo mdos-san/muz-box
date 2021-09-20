@@ -2,16 +2,8 @@ import { io } from "socket.io-client";
 import Watcher from "@mdos-san/watcher";
 
 const SocketService = () => {
-  const {
-    watchValue: watchSocket,
-    setValue: setSocket,
-    getValue: getSocket,
-  } = Watcher(null);
-  const {
-    watchValue: watchCache,
-    setValue: setCache,
-    getValue: getCache,
-  } = Watcher([]);
+  const [watchSocket, setSocket, getSocket] = Watcher(null);
+  const [watchCache, setCache, getCache] = Watcher([]);
 
   const init = async (token, jwt) => {
     let socket = io("http://localhost:4241", {
