@@ -1,6 +1,6 @@
-import jwt from "jsonwebtoken";
 import runtimeEnv from "@mars/heroku-js-runtime-env";
 import Watcher from "@mdos-san/watcher";
+import jwt from "jsonwebtoken";
 
 const AuthService = () => {
   const env = runtimeEnv();
@@ -10,8 +10,9 @@ const AuthService = () => {
 
   const init = async () => {
     const token = window.localStorage.getItem("token");
+    const isExpired = token ? Date.now() > jwt.decode(token).exp * 1000 : true;
 
-    if (token) {
+    if (token && !isExpired) {
       encodedJWT = token;
       decodedJWT = jwt.decode(token);
       setJWT(decodedJWT);

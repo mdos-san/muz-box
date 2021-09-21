@@ -1,16 +1,10 @@
-import {
-  fireEvent,
-  render,
-  screen,
-  wait,
-  waitFor,
-} from "@testing-library/react";
+import AuthFactory from "@sharp-mds/auth";
+import SocketCacheFactory from "@sharp-mds/socket-cache";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import jwt from "jsonwebtoken";
 import App from "./App";
 
 // Start modules used by muzbox
-import AuthFactory from "@sharp-mds/auth";
-import SocketCacheFactory from "@sharp-mds/socket-cache";
-
 const { server: authServer } = AuthFactory(4242, "test-secret", "*");
 const { server: socketCacheFactory, redisClient } = SocketCacheFactory(
   4241,
@@ -91,13 +85,40 @@ test("Should be able to add a music to the cache", async () => {
 });
 
 test("Should use token in local storage when available", async () => {
-  window.localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpZCI6InByZWRlZmluZWQtaWQifQ.pYpR6zjGgguxlDHUhxJL4jvBF-fkmIWmnA5IzAAiYic");
+  const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
+    expiresIn: "1m",
+  });
+
+  window.localStorage.setItem("token", token);
 
   render(<App />);
 
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText(/RoomId: predefined-id/i)).toBeInTheDocument();
+  });
+
+  // Clean
+  window.localStorage.removeItem("token");
+});
+
+test("Should refetch if token in localstorage is expired", async () => {
+  const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
+    expiresIn: 1,
+  });
+  window.localStorage.setItem("token", token);
+
+  // Wait 1s to make token expired
+  await new Promise((res) => setTimeout(res, 1000));
+
+  render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => {
+    expect(
+      screen.queryByText(/RoomId: predefined-id/i)
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText(/RoomId: .*/i)).toBeInTheDocument();
   });
 
   // Clean
