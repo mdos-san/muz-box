@@ -79,6 +79,7 @@ const App = () => {
       <button
         onClick={() => {
           socketService.emit("add-to-cache", jwt.id, inputText.split("=")[1]);
+	  setInputText("");
         }}
       >
         Ajouter

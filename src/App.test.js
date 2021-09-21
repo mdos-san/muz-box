@@ -74,6 +74,7 @@ test("Should be able to add a music to the cache", async () => {
   fireEvent.click(addButton);
 
   await waitFor(() => {
+    expect(input.value).toBe("");
     expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
   });
 });
