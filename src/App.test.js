@@ -41,6 +41,17 @@ test("Should display the uuid of the current room", async () => {
   });
 });
 
+test("Should store fetched jwt after a fetch", async () => {
+  render(<App />);
+
+  await waitFor(() => {
+    const roomId = screen.getByText(/RoomId: .*/i);
+    expect(roomId).toBeInTheDocument();
+    expect(roomId.textContent.length).toBeGreaterThan(12);
+    expect(localStorage.getItem("token")).toBeTruthy();
+  });
+});
+
 test("Should display a QRCode in canvas", async () => {
   const { container } = render(<App />);
 
@@ -77,4 +88,18 @@ test("Should be able to add a music to the cache", async () => {
     expect(input.value).toBe("");
     expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
   });
+});
+
+test("Should use token in local storage when available", async () => {
+  window.localStorage.setItem("token", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJpZCI6InByZWRlZmluZWQtaWQifQ.pYpR6zjGgguxlDHUhxJL4jvBF-fkmIWmnA5IzAAiYic");
+
+  render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => {
+    expect(screen.getByText(/RoomId: predefined-id/i)).toBeInTheDocument();
+  });
+
+  // Clean
+  window.localStorage.removeItem("token");
 });
