@@ -4,7 +4,8 @@ import Watcher from "@mdos-san/watcher";
 
 const SocketService = () => {
   const env = runtimeEnv();
-  const defaultCache = window.localStorage.getItem("cache") || [];
+  const localCache = window.localStorage.getItem("cache");
+  const defaultCache = localCache ? JSON.parse(localCache) : [];
   const [watchCache, setCache, getCache] = Watcher(defaultCache);
   const [watchSocket, setSocket, getSocket] = Watcher(null);
 

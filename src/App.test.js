@@ -88,14 +88,14 @@ test("Should be able to add a music to the cache", async () => {
 });
 
 test("Should use local storage cache", async () => {
-  window.localStorage.setItem('cache', JSON.stringify(["music-id"]));
+  window.localStorage.setItem("cache", JSON.stringify(["music-id-1", "music-id-2"]));
 
   render(<App />);
 
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
-    expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
+    expect(screen.getByText(/Nombre de musiques: 2/i)).toBeInTheDocument();
   });
 });
 
