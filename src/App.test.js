@@ -87,6 +87,18 @@ test("Should be able to add a music to the cache", async () => {
   });
 });
 
+test("Should use local storage cache", async () => {
+  window.localStorage.setItem('cache', JSON.stringify(["music-id"]));
+
+  render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => {
+    expect(screen.getByText("Socket connected")).toBeInTheDocument();
+    expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
+  });
+});
+
 test("Should use token in local storage when available", async () => {
   const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
     expiresIn: "1m",

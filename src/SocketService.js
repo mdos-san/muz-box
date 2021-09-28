@@ -3,9 +3,11 @@ import runtimeEnv from "@mars/heroku-js-runtime-env";
 import Watcher from "@mdos-san/watcher";
 
 const SocketService = () => {
-  const [watchSocket, setSocket, getSocket] = Watcher(null);
-  const [watchCache, setCache, getCache] = Watcher([]);
   const env = runtimeEnv();
+  const defaultCache = window.localStorage.getItem("cache") || [];
+  const [watchCache, setCache, getCache] = Watcher(defaultCache);
+  const [watchSocket, setSocket, getSocket] = Watcher(null);
+
 
   const init = async (token, jwt) => {
     let socket = io(env.REACT_APP_SOCKET_CACHE_URL, {
