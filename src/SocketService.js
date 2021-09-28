@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import runtimeEnv from '@mars/heroku-js-runtime-env';
+import runtimeEnv from "@mars/heroku-js-runtime-env";
 import Watcher from "@mdos-san/watcher";
 
 const SocketService = () => {
@@ -21,7 +21,9 @@ const SocketService = () => {
       });
 
       socket.on(`add-to-cache[${jwt.id}]`, (musicId) => {
-        setCache([...getCache(), musicId]);
+        const newCache = [...getCache(), musicId];
+        setCache(newCache);
+        window.localStorage.setItem("cache", JSON.stringify(newCache));
       });
     });
   };
