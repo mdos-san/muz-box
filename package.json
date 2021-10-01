@@ -18,7 +18,7 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently 'react-scripts start' 'ts-node src/load-dev-env.js'",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:lcov": "npm run test -- --coverage --watchAll=false && cp coverage/lcov.info .",
@@ -50,6 +50,8 @@
   "devDependencies": {
     "@sharp-mds/auth": "github:sharp-mds/auth",
     "@sharp-mds/socket-cache": "github:sharp-mds/socket-cache",
-    "canvas": "^2.8.0"
+    "canvas": "^2.8.0",
+    "concurrently": "^6.2.2",
+    "ts-node": "^10.2.1"
   }
 }
