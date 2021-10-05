@@ -62,7 +62,7 @@ const App = () => {
         }
       });
     };
-  }, [SocketService, AuthService]);
+  }, [socketService]);
 
   return (
     <div>
