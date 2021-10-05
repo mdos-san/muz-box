@@ -2,7 +2,7 @@ import Watcher from "@mdos-san/watcher";
 import runtimeEnv from "@mars/heroku-js-runtime-env";
 import { io } from "socket.io-client";
 
-const createSocket = () => {
+const createSocket = (token) => {
   const env = runtimeEnv();
 
   return io(env.REACT_APP_SOCKET_CACHE_URL, {
@@ -19,7 +19,7 @@ const SocketService = () => {
   const [watchSocket, setSocket, getSocket] = Watcher(null);
 
   const init = async (token, jwt) => {
-    const socket = createSocket();
+    const socket = createSocket(token);
 
     return new Promise((res, rej) => {
       socket.on("connect", () => {
