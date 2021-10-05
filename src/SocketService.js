@@ -1,21 +1,25 @@
-import { io } from "socket.io-client";
-import runtimeEnv from "@mars/heroku-js-runtime-env";
 import Watcher from "@mdos-san/watcher";
+import runtimeEnv from "@mars/heroku-js-runtime-env";
+import { io } from "socket.io-client";
+
+const createSocket = () => {
+  const env = runtimeEnv();
+
+  return io(env.REACT_APP_SOCKET_CACHE_URL, {
+    forceNew: true,
+    query: `token=${token}`,
+    extraHeaders: { Authorization: `Bearer ${token}` },
+  });
+};
 
 const SocketService = () => {
-  const env = runtimeEnv();
   const localCache = window.localStorage.getItem("cache");
   const defaultCache = localCache ? JSON.parse(localCache) : [];
   const [watchCache, setCache, getCache] = Watcher(defaultCache);
   const [watchSocket, setSocket, getSocket] = Watcher(null);
 
-
   const init = async (token, jwt) => {
-    let socket = io(env.REACT_APP_SOCKET_CACHE_URL, {
-      forceNew: true,
-      query: `token=${token}`,
-      extraHeaders: { Authorization: `Bearer ${token}` },
-    });
+    const socket = createSocket();
 
     return new Promise((res, rej) => {
       socket.on("connect", () => {
