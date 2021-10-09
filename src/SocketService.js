@@ -13,17 +13,22 @@ const createSocket = (token) => {
 };
 
 const SocketService = () => {
-  const localCache = window.localStorage.getItem("cache");
-  const defaultCache = localCache ? JSON.parse(localCache) : [];
-  const [watchCache, setCache, getCache] = Watcher(defaultCache);
+  const [watchCache, setCache, getCache] = Watcher([]);
   const [watchSocket, setSocket, getSocket] = Watcher(null);
+  const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
 
   const init = async (token, jwt) => {
-    const socket = createSocket(token);
+    const localCache = window.localStorage.getItem("cache");
+    if (localCache !== null) {
+      setCache(JSON.parse(localCache));
+    }
 
+    // Init socket
+    const socket = createSocket(token);
     return new Promise((res, rej) => {
       socket.on("connect", () => {
         setSocket(socket);
+        setStatus("Socket connected");
         res();
       });
 
@@ -36,10 +41,24 @@ const SocketService = () => {
   };
 
   const emit = (name, ...args) => {
-    getSocket().emit(name, ...args);
+    const socket = getSocket();
+
+    if (socket.connected) {
+      socket.emit(name, ...args);
+    } else {
+      console.log("TODO: Retry ?");
+    }
   };
 
-  return { emit, init, watchCache, watchSocket };
+  const clean = () => {
+    watchSocket((s) => {
+      if (s !== null) {
+        s.destroy();
+      }
+    });
+  };
+
+  return { emit, init, watchCache, watchSocket, clean, watchStatus, getStatus };
 };
 
 export default SocketService;

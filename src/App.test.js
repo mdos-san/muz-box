@@ -1,15 +1,16 @@
+import App from "./App";
 import AuthFactory from "@sharp-mds/auth";
 import SocketCacheFactory from "@sharp-mds/socket-cache";
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import jwt from "jsonwebtoken";
-import App from "./App";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 // Start modules used by muzbox
 const { server: authServer } = AuthFactory(4242, "test-secret", "*");
 const { server: socketCacheFactory, redisClient } = SocketCacheFactory(
   4241,
   null,
-  "test-secret"
+  "test-secret",
+  "*"
 );
 
 afterAll(() => {
@@ -18,11 +19,18 @@ afterAll(() => {
   socketCacheFactory.close();
 });
 
-test("Title is displayed", () => {
+const clean = () => {
+  window.localStorage.removeItem("token");
+  window.localStorage.removeItem("cache");
+};
+
+test("Title is displayed", async () => {
   render(<App />);
 
-  const mainTitle = screen.getByText(/MuzBox/);
-  expect(mainTitle).toBeInTheDocument();
+  // Assert: Title is displayed
+  await waitFor(() => screen.getByText("MuzBox"));
+
+  clean();
 });
 
 test("Should display the uuid of the current room", async () => {
@@ -33,6 +41,8 @@ test("Should display the uuid of the current room", async () => {
     expect(roomId).toBeInTheDocument();
     expect(roomId.textContent.length).toBeGreaterThan(12);
   });
+
+  clean();
 });
 
 test("Should store fetched jwt after a fetch", async () => {
@@ -42,8 +52,10 @@ test("Should store fetched jwt after a fetch", async () => {
     const roomId = screen.getByText(/RoomId: .*/i);
     expect(roomId).toBeInTheDocument();
     expect(roomId.textContent.length).toBeGreaterThan(12);
-    expect(localStorage.getItem("token")).toBeTruthy();
+    expect(window.localStorage.getItem("token")).toBeTruthy();
   });
+
+  clean();
 });
 
 test("Should display a QRCode in canvas", async () => {
@@ -60,43 +72,52 @@ test("Should display a QRCode in canvas", async () => {
 
     expect(isCanvasBlank(canvas)).toBe(false);
   });
+
+  clean();
 });
 
-test("Should be able to add a music to the cache", async () => {
+test("Can add a music", async () => {
   render(<App />);
-
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
-  const addButton = screen.getByRole("button", { name: "Ajouter" });
 
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
   });
 
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(addButton);
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
 
-  await waitFor(() => {
-    expect(input.value).toBe("");
-    expect(screen.getByText(/Nombre de musiques: 1/i)).toBeInTheDocument();
+  // Assert: Music number should be displayed on screen
+  await waitFor(() => screen.getByText("Nombre de musiques: 1"));
 
-    const cache = JSON.parse(window.localStorage.getItem("cache"));
-    expect(cache[0]).toBe("dQw4w9WgXcQ");
-  });
+  // Assert: Music id should be stored in local storage
+  const cache = JSON.parse(window.localStorage.getItem("cache"));
+  expect(cache[0]).toBe("dQw4w9WgXcQ");
+
+  // Assert: Input should be cleared
+  expect(input.value).toBe("");
+
+  clean();
 });
 
-test("Should use local storage cache", async () => {
-  window.localStorage.setItem("cache", JSON.stringify(["music-id-1", "music-id-2"]));
+test("Should load music from local storage", async () => {
+  window.localStorage.setItem(
+    "cache",
+    JSON.stringify(["music-id-1", "music-id-2"])
+  );
 
   render(<App />);
 
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
-    expect(screen.getByText(/Nombre de musiques: 2/i)).toBeInTheDocument();
+    expect(screen.getByText("Nombre de musiques: 2")).toBeInTheDocument();
   });
+
+  clean();
 });
 
 test("Should use token in local storage when available", async () => {
@@ -109,12 +130,9 @@ test("Should use token in local storage when available", async () => {
   render(<App />);
 
   // Wait for socket to connect
-  await waitFor(() => {
-    expect(screen.getByText(/RoomId: predefined-id/i)).toBeInTheDocument();
-  });
+  await waitFor(() => screen.getByText("RoomId: predefined-id"));
 
-  // Clean
-  window.localStorage.removeItem("token");
+  clean();
 });
 
 test("Should refetch if token in localstorage is expired", async () => {
@@ -136,6 +154,5 @@ test("Should refetch if token in localstorage is expired", async () => {
     expect(screen.queryByText(/RoomId: .*/i)).toBeInTheDocument();
   });
 
-  // Clean
-  window.localStorage.removeItem("token");
+  clean();
 });
