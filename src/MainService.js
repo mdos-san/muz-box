@@ -1,27 +1,26 @@
 import AuthService from "./AuthService";
+import PlaylistService from "./PlaylistService";
 import SocketService from "./SocketService";
 
 const MainService = () => {
-  let socket = null;
+  const pub = {};
 
-  const init = async () => {
+  pub.init = async () => {
     await AuthService.init();
 
-    socket = SocketService();
-    await socket.init(AuthService.getEncodedJWT(), AuthService.getJWT());
+    pub.socket = SocketService();
+    await pub.socket.init(AuthService.getEncodedJWT(), AuthService.getJWT());
+
+    pub.playlist = PlaylistService(pub.socket);
+    pub.playlist.init();
   };
 
-  const clean = () => {
-    socket.clean();
+  pub.clean = () => {
+    pub.socket.clean();
+    pub.playlist.clean();
   };
 
-  const getSocket = () => socket; 
-
-  return {
-    init,
-    clean,
-    getSocket,
-  };
+  return pub;
 };
 
 export default MainService();

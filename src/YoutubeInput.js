@@ -19,7 +19,7 @@ const YoutubeInput = () => {
       </label>
       <button
         onClick={() => {
-          MainService.getSocket().emit("add-to-cache", jwt.id, inputText.split("=")[1]);
+          MainService.socket.emit("add-to-cache", jwt.id, inputText.split("=")[1]);
           setInputText("");
         }}
       >

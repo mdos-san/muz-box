@@ -2,9 +2,9 @@ import React, {useEffect, useState} from "react";
 import MainService from "./MainService";
 
 const SocketStatus = () => {
-  const [socketStatus, setSocketStatus] = useState(MainService.getSocket().getStatus());
+  const [socketStatus, setSocketStatus] = useState(MainService.socket.getStatus());
 
-  useEffect(() => MainService.getSocket().watchStatus(setSocketStatus), [])
+  useEffect(() => MainService.socket.watchStatus(setSocketStatus), [])
 
   return <div>{socketStatus}</div>
 }

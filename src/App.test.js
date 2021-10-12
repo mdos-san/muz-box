@@ -156,3 +156,24 @@ test("Should refetch if token in localstorage is expired", async () => {
 
   clean();
 });
+
+test("Should display a youtube player when music is added", async () => {
+  const utils = render(<App />);
+
+  // Assert: Message should be displayed when no music is in playlist
+  await waitFor(() => screen.getByText('No music in playlist'));
+
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  fireEvent.change(input, {
+    target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+
+  await waitFor(() => {
+    // Assert: youtube player should be loaded with correct id
+    const youtubePlayer = utils.container.querySelector("#youtube-player-dQw4w9WgXcQ");
+    expect(youtubePlayer).toBeInTheDocument();
+  });
+
+  clean();
+});

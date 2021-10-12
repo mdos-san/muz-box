@@ -4,7 +4,7 @@ import MainService from "./MainService";
 const MusicCounter = () => {
   const [cache, setCache] = useState([]);
 
-  useEffect(() => MainService.getSocket().watchCache(setCache), []);
+  useEffect(() => MainService.socket.watchCache(setCache), []);
 
   return <span>Nombre de musiques: {cache.length}</span>;
 };
