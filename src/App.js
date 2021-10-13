@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import AuthService from "./AuthService";
 import MusicCounter from "./MusicCounter";
+import MusicDisplayer from "./MusicDisplayer";
 import QRCode from "./QRCode";
 import ServiceLoader from "./ServiceLoader";
 import SocketStatus from "./SocketStatus";
@@ -23,6 +24,7 @@ const App = () => {
         <SocketStatus />
         <span>RoomId: {jwt.id}</span>
         <MusicCounter />
+	<MusicDisplayer />
       </div>
     </ServiceLoader>
   );

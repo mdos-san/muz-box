@@ -4,6 +4,12 @@ import SocketCacheFactory from "@sharp-mds/socket-cache";
 import jwt from "jsonwebtoken";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
+// Mock the youtube iframe API
+// TODO: Remove ?
+window.YT = {
+  Player: class {}
+};
+
 // Start modules used by muzbox
 const { server: authServer } = AuthFactory(4242, "test-secret", "*");
 const { server: socketCacheFactory, redisClient } = SocketCacheFactory(
@@ -161,7 +167,7 @@ test("Should display a youtube player when music is added", async () => {
   const utils = render(<App />);
 
   // Assert: Message should be displayed when no music is in playlist
-  await waitFor(() => screen.getByText('No music in playlist'));
+  await waitFor(() => screen.getByText("No music in playlist"));
 
   const input = screen.getByRole("textbox", { name: "Lien Youtube" });
   fireEvent.change(input, {
@@ -171,9 +177,30 @@ test("Should display a youtube player when music is added", async () => {
 
   await waitFor(() => {
     // Assert: youtube player should be loaded with correct id
-    const youtubePlayer = utils.container.querySelector("#youtube-player-dQw4w9WgXcQ");
+    const youtubePlayer = utils.container.querySelector("#youtube-player");
     expect(youtubePlayer).toBeInTheDocument();
+
+    // Assert: Message should not be displayed
+    expect(
+      screen.queryByText("No music in in playlist")
+    ).not.toBeInTheDocument();
   });
+
+  clean();
+});
+
+test("Should display currently played music", async () => {
+  render(<App />);
+
+  await waitFor(() => screen.getByText("No music in playlist"));
+
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  fireEvent.change(input, {
+    target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+
+  await waitFor(() => screen.getByText("Currently playing dQw4w9WgXcQ"));
 
   clean();
 });

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import MainService from "./MainService";
+import YoutubeService from "./YoutubeService";
 
 const YoutubePlayer = () => {
   const [musicId, setMusicId] = useState(null);
 
-  useEffect(() => MainService.playlist.watchMusicId(setMusicId));
+  useEffect(() => MainService.playlist.watchMusicId(setMusicId), []);
+
+  useEffect(() => YoutubeService.init(), []);
 
   if (musicId === null) {
     return <p>No music in playlist</p>;
@@ -12,11 +15,10 @@ const YoutubePlayer = () => {
 
   return (
     <iframe
-      id={`youtube-player-${musicId}`}
-      type="text/html"
+      id={`youtube-player`}
       width="640"
       height="360"
-      src={`https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&origin=${window.location.origin}`}
+      src={`https://www.youtube.com/embed/${musicId}?enablejsapi=1&origin=${window.location.origin}`}
       frameBorder="0"
     ></iframe>
   );
