@@ -5,7 +5,8 @@ const YoutubeService = (YT) => {
 
   const init = () => {
     const onReady = (event) => {
-      event.target.playVideo();
+      const musicId = MainService.playlist.setNextMusicId();
+      player.loadVideoById(musicId);
     };
 
     const onStateChange = (event) => {

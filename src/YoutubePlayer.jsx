@@ -15,7 +15,7 @@ const YoutubePlayer = () => {
       id={`youtube-player`}
       width="640"
       height="360"
-      src={`https://www.youtube.com/embed/${musicId}?enablejsapi=1&origin=${window.location.origin}`}
+      src={`https://www.youtube.com/embed/?enablejsapi=1&origin=${window.location.origin}`}
       frameBorder="0"
     ></iframe>
   );
