@@ -3,11 +3,26 @@ import AuthFactory from "@sharp-mds/auth";
 import SocketCacheFactory from "@sharp-mds/socket-cache";
 import jwt from "jsonwebtoken";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 
 // Mock the youtube iframe API
-// TODO: Remove ?
-window.YT = {
-  Player: class {}
+// TODO: Try to make a cleaner mock interface
+let configYT = null;
+let loadedVideo = null;
+global.YT = {
+  Player: class {
+    constructor(id, c) {
+      configYT = c;
+    }
+
+    getIframe() {
+      return {};
+    }
+
+    loadVideoById(id) {
+      loadedVideo = id;
+    }
+  },
 };
 
 // Start modules used by muzbox
@@ -23,6 +38,8 @@ afterAll(() => {
   authServer.close();
   redisClient.quit();
   socketCacheFactory.close();
+  configYT = null;
+  loadedVideo = null;
 });
 
 const clean = () => {
@@ -201,6 +218,39 @@ test("Should display currently played music", async () => {
   fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
 
   await waitFor(() => screen.getByText("Currently playing dQw4w9WgXcQ"));
+
+  clean();
+});
+
+test("Should change music when first is over", async () => {
+  render(<App />);
+
+  await waitFor(() => screen.getByText("No music in playlist"));
+
+  // Add first music
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  fireEvent.change(input, {
+    target: { value: "https://www.youtube.com/watch?v=id-1" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+
+  // Add second music
+  fireEvent.change(input, {
+    target: { value: "https://www.youtube.com/watch?v=id-2" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+
+  // Assert: First music should start
+  await waitFor(() => screen.getByText("Currently playing id-1"));
+
+  // Act: Wait first music to end
+  act(() => {
+    configYT.events.onStateChange({ data: 0 });
+  });
+
+  // Assert: Second music should start
+  await waitFor(() => screen.getByText("Currently playing id-2"));
+  expect(loadedVideo).toBe("id-2");
 
   clean();
 });

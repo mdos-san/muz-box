@@ -58,7 +58,7 @@ const SocketService = () => {
     });
   };
 
-  return { emit, init, watchCache, watchSocket, clean, watchStatus, getStatus };
+  return { emit, init, watchCache, watchSocket, clean, watchStatus, getStatus, getCache };
 };
 
 export default SocketService;

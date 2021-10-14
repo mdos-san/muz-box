@@ -1,6 +1,7 @@
 import AuthService from "./AuthService";
 import PlaylistService from "./PlaylistService";
 import SocketService from "./SocketService";
+import YoutubeService from "./YoutubeService";
 
 const MainService = () => {
   const pub = {};
@@ -13,6 +14,9 @@ const MainService = () => {
 
     pub.playlist = PlaylistService(pub.socket);
     pub.playlist.init();
+
+    pub.youtube = YoutubeService(global.YT);
+    pub.youtube.init();
   };
 
   pub.clean = () => {

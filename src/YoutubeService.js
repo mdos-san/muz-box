@@ -1,21 +1,22 @@
-const YoutubeService = () => {
-  const init = () => {
-    const { YT } = window;
+import MainService from "./MainService";
 
+const YoutubeService = (YT) => {
+  let player = null;
+
+  const init = () => {
     const onReady = (event) => {
-      console.log("YOLOOO");
       event.target.playVideo();
     };
 
     const onStateChange = (event) => {
-      if (event.data === YT.PlayerState.ENDED) {
-        // Ask for new music
-        console.log("ask new music");
+      if (event.data === 0) {
+        const musicId = MainService.playlist.setNextMusicId();
+        player.loadVideoById(musicId);
       }
     };
 
     setTimeout(() => {
-      const player = new YT.Player("youtube-player", {
+      player = new YT.Player("youtube-player", {
         height: "390",
         width: "640",
         videoId: "M7lc1UVf-VE",
@@ -27,10 +28,14 @@ const YoutubeService = () => {
           onStateChange,
         },
       });
+
+      if (player.getIframe() === null) {
+        init(); // retry init
+      }
     }, 3000);
   };
 
   return { init };
 };
 
-export default YoutubeService();
+export default YoutubeService;
