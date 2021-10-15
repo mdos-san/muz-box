@@ -126,6 +126,30 @@ test("Can add a music", async () => {
   clean();
 });
 
+test("Can add a music with short link", async () => {
+  render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => {
+    expect(screen.getByText("Socket connected")).toBeInTheDocument();
+  });
+
+  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  fireEvent.change(input, {
+    target: { value: "https://youtu.be/Gs069dndIYk" },
+  });
+  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+
+  // Assert: Music number should be displayed on screen
+  await waitFor(() => screen.getByText("Nombre de musiques: 1"));
+
+  // Assert: Music id should be stored in local storage
+  const cache = JSON.parse(window.localStorage.getItem("cache"));
+  expect(cache[0]).toBe("Gs069dndIYk");
+
+  clean();
+});
+
 test("Should load music from local storage", async () => {
   window.localStorage.setItem(
     "cache",
@@ -251,6 +275,25 @@ test("Should change music when first is over", async () => {
   // Assert: Second music should start
   await waitFor(() => screen.getByText("Currently playing id-2"));
   expect(loadedVideo).toBe("id-2");
+
+  clean();
+});
+
+test("Should start as mobile when token is in url", async () => {
+  const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
+    expiresIn: 60 * 1000,
+  });
+
+  Object.defineProperty(window, "location", {
+    value: {
+      pathname: "/" + token,
+    },
+  });
+
+  render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => screen.getByText("RoomId: predefined-id"));
 
   clean();
 });

@@ -8,7 +8,15 @@ const AuthService = () => {
   let decodedJWT = null;
   const [watchJWT, setJWT] = Watcher({});
 
-  const init = async () => {
+  const init = async (urlToken) => {
+    if (urlToken !== "") {
+      encodedJWT = urlToken;
+      decodedJWT = jwt.decode(urlToken);
+      console.log(encodedJWT, decodedJWT);
+      setJWT(decodedJWT);
+      return ;
+    }
+
     const token = window.localStorage.getItem("token");
     const isExpired = token ? Date.now() > jwt.decode(token).exp * 1000 : true;
 

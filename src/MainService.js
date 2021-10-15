@@ -7,7 +7,8 @@ const MainService = () => {
   const pub = {};
 
   pub.init = async () => {
-    await AuthService.init();
+    const urlToken = window.location.pathname.slice(1);
+    await AuthService.init(urlToken);
 
     pub.socket = SocketService();
     await pub.socket.init(AuthService.getEncodedJWT(), AuthService.getJWT());
