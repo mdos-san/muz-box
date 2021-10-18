@@ -279,7 +279,7 @@ test("Should change music when first is over", async () => {
   clean();
 });
 
-test("Should start as mobile when token is in url", async () => {
+test("Should start as client when token is in url", async () => {
   const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
     expiresIn: 60 * 1000,
   });
@@ -294,6 +294,29 @@ test("Should start as mobile when token is in url", async () => {
 
   // Wait for socket to connect
   await waitFor(() => screen.getByText("RoomId: predefined-id"));
+
+  clean();
+});
+
+test("Should hide youtube player/music counter in client mode", async () => {
+  // Start app in client mode
+  const token = jwt.sign({ id: "predefined-id" }, "test-secret", {
+    expiresIn: 60 * 1000,
+  });
+  Object.defineProperty(window, "location", {
+    value: {
+      pathname: "/" + token,
+    },
+  });
+  const { container } = render(<App />);
+
+  // Wait for socket to connect
+  await waitFor(() => screen.getByText("RoomId: predefined-id"));
+
+  expect(screen.queryByText(/Currently playing.*/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Nombre de musiques.*/)).not.toBeInTheDocument();
+  expect(container.querySelector("canvas")).not.toBeInTheDocument();
+  expect(container.querySelector("#youtube-player")).not.toBeInTheDocument();
 
   clean();
 });

@@ -7,14 +7,15 @@ const AuthService = () => {
   let encodedJWT = null;
   let decodedJWT = null;
   const [watchJWT, setJWT] = Watcher({});
+  const [watchIsClient, setIsClient] = Watcher(false);
 
   const init = async (urlToken) => {
     if (urlToken !== "") {
       encodedJWT = urlToken;
       decodedJWT = jwt.decode(urlToken);
-      console.log(encodedJWT, decodedJWT);
       setJWT(decodedJWT);
-      return ;
+      setIsClient(true);
+      return;
     }
 
     const token = window.localStorage.getItem("token");
@@ -40,7 +41,7 @@ const AuthService = () => {
 
   const clean = () => {};
 
-  return { init, getJWT, getEncodedJWT, watchJWT, clean };
+  return { init, getJWT, getEncodedJWT, watchJWT, clean, watchIsClient };
 };
 
 export default AuthService();

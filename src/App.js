@@ -11,20 +11,26 @@ import YoutubePlayer from "./YoutubePlayer";
 
 const App = () => {
   const [jwt, setJWT] = useState({});
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => AuthService.watchJWT(setJWT), []);
+  useEffect(() => AuthService.watchIsClient(setIsClient), []);
 
   return (
     <ServiceLoader>
       <div>
         <h1>MuzBox</h1>
-        <QRCode jwt={jwt} />
-	<YoutubePlayer />
+        {!isClient && (
+          <>
+            <QRCode jwt={jwt} />
+            <YoutubePlayer />
+            <MusicCounter />
+            <MusicDisplayer />
+          </>
+        )}
         <YoutubeInput />
         <SocketStatus />
         <span>RoomId: {jwt.id}</span>
-        <MusicCounter />
-	<MusicDisplayer />
       </div>
     </ServiceLoader>
   );
