@@ -107,14 +107,14 @@ test("Can add a music", async () => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
   });
 
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const input = screen.getByRole("textbox", { name: "Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   // Assert: Music number should be displayed on screen
-  await waitFor(() => screen.getByText("Nombre de musiques: 1"));
+  await waitFor(() => screen.getByText("Music counter: 1"));
 
   // Assert: Music id should be stored in local storage
   const cache = JSON.parse(window.localStorage.getItem("cache"));
@@ -134,14 +134,14 @@ test("Can add a music with short link", async () => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
   });
 
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const input = screen.getByRole("textbox", { name: "Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://youtu.be/Gs069dndIYk" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   // Assert: Music number should be displayed on screen
-  await waitFor(() => screen.getByText("Nombre de musiques: 1"));
+  await waitFor(() => screen.getByText("Music counter: 1"));
 
   // Assert: Music id should be stored in local storage
   const cache = JSON.parse(window.localStorage.getItem("cache"));
@@ -161,7 +161,7 @@ test("Should load music from local storage", async () => {
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
-    expect(screen.getByText("Nombre de musiques: 2")).toBeInTheDocument();
+    expect(screen.getByText("Music counter: 2")).toBeInTheDocument();
   });
 
   clean();
@@ -210,11 +210,11 @@ test("Should display a youtube player when music is added", async () => {
   // Assert: Message should be displayed when no music is in playlist
   await waitFor(() => screen.getByText("No music in playlist"));
 
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const input = screen.getByRole("textbox", { name: "Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   await waitFor(() => {
     // Assert: youtube player should be loaded with correct id
@@ -235,11 +235,11 @@ test("Should display currently played music", async () => {
 
   await waitFor(() => screen.getByText("No music in playlist"));
 
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const input = screen.getByRole("textbox", { name: "Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   await waitFor(() => screen.getByText("Currently playing dQw4w9WgXcQ"));
 
@@ -252,17 +252,17 @@ test("Should change music when first is over", async () => {
   await waitFor(() => screen.getByText("No music in playlist"));
 
   // Add first music
-  const input = screen.getByRole("textbox", { name: "Lien Youtube" });
+  const input = screen.getByRole("textbox", { name: "Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-1" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   // Add second music
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-2" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Ajouter" }));
+  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
 
   // Assert: First music should start
   await waitFor(() => screen.getByText("Currently playing id-1"));
@@ -314,7 +314,7 @@ test("Should hide youtube player/music counter in client mode", async () => {
   await waitFor(() => screen.getByText("RoomId: predefined-id"));
 
   expect(screen.queryByText(/Currently playing.*/)).not.toBeInTheDocument();
-  expect(screen.queryByText(/Nombre de musiques.*/)).not.toBeInTheDocument();
+  expect(screen.queryByText(/Music counter.*/)).not.toBeInTheDocument();
   expect(container.querySelector("canvas")).not.toBeInTheDocument();
   expect(container.querySelector("#youtube-player")).not.toBeInTheDocument();
 

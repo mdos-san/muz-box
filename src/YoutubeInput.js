@@ -11,7 +11,7 @@ const YoutubeInput = () => {
   return (
     <div>
       <label>
-        Lien Youtube
+        Youtube link
         <input
           value={inputText}
           onChange={(ev) => setInputText(ev.currentTarget.value)}
@@ -27,7 +27,7 @@ const YoutubeInput = () => {
           setInputText("");
         }}
       >
-        Ajouter
+        Add link to the playlist
       </button>
     </div>
   );

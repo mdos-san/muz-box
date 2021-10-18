@@ -6,7 +6,7 @@ const MusicCounter = () => {
 
   useEffect(() => MainService.socket.watchCache(setCache), []);
 
-  return <span>Nombre de musiques: {cache.length}</span>;
+  return <span>Music counter: {cache.length}</span>;
 };
 
 export default MusicCounter;
