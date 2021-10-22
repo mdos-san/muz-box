@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <ServiceLoader>
-      <div>
+      <div className="app">
         <h1>MuzBox</h1>
         {!isClient && (
           <>

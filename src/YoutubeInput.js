@@ -9,15 +9,17 @@ const YoutubeInput = () => {
   useEffect(() => AuthService.watchJWT(setJWT), [])
 
   return (
-    <div>
-      <label>
+    <div className="youtube-input">
+      <label className="youtube-input__label">
         Youtube link
         <input
+	  className="youtube-input__input"
           value={inputText}
           onChange={(ev) => setInputText(ev.currentTarget.value)}
         />
       </label>
       <button
+	className="youtube-input__button"
         onClick={() => {
 	  if (inputText.indexOf("=") > -1) {
 	    MainService.socket.emit("add-to-cache", jwt.id, inputText.split("=")[1]);

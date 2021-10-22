@@ -3,3 +3,44 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+html, body, #root, .app {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app {
+  background-image: linear-gradient( 109.6deg,  rgba(255,174,0,1) 11.2%, rgba(255,0,0,1) 100.2% );
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.youtube-player {
+  width: 640px;
+  height: 360px;
+  border: 2px solid white;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 360px;
+}
+
+.youtube-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.youtube-input__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.youtube-input__button {
+  padding: 8px 16px;
+}
