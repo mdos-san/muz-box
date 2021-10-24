@@ -21,16 +21,21 @@ const App = () => {
       <div className="app">
         <h1>MuzBox</h1>
         {!isClient && (
-          <>
+          <div className="main-part">
             <QRCode jwt={jwt} />
             <YoutubePlayer />
-            <MusicCounter />
-            <MusicDisplayer />
-          </>
+          </div>
         )}
         <YoutubeInput />
-        <SocketStatus />
-        <span>RoomId: {jwt.id}</span>
+        {!isClient && (
+	  // TODO: Make an info button
+          <div className="info">
+            <MusicCounter />
+            <MusicDisplayer />
+            <SocketStatus />
+          </div>
+        )}
+        <span className="room-id">RoomId: {jwt.id}</span>
       </div>
     </ServiceLoader>
   );
