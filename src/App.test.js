@@ -107,11 +107,11 @@ test("Can add a music", async () => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
   });
 
-  const input = screen.getByRole("textbox", { name: "Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   // Assert: Music number should be displayed on screen
   await waitFor(() => screen.getByText("Music counter: 1"));
@@ -134,11 +134,11 @@ test("Can add a music with short link", async () => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
   });
 
-  const input = screen.getByRole("textbox", { name: "Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://youtu.be/Gs069dndIYk" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   // Assert: Music number should be displayed on screen
   await waitFor(() => screen.getByText("Music counter: 1"));
@@ -210,11 +210,11 @@ test("Should display a youtube player when music is added", async () => {
   // Assert: Message should be displayed when no music is in playlist
   await waitFor(() => screen.getByText("No music in playlist"));
 
-  const input = screen.getByRole("textbox", { name: "Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   await waitFor(() => {
     // Assert: youtube player should be loaded with correct id
@@ -235,11 +235,11 @@ test("Should display currently played music", async () => {
 
   await waitFor(() => screen.getByText("No music in playlist"));
 
-  const input = screen.getByRole("textbox", { name: "Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   await waitFor(() => screen.getByText("Currently playing dQw4w9WgXcQ"));
 
@@ -252,17 +252,17 @@ test("Should change music when first is over", async () => {
   await waitFor(() => screen.getByText("No music in playlist"));
 
   // Add first music
-  const input = screen.getByRole("textbox", { name: "Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-1" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   // Add second music
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-2" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Add link to the playlist" }));
+  fireEvent.click(screen.getByRole("button", { name: "Share" }));
 
   // Assert: First music should start
   await waitFor(() => screen.getByText("Currently playing id-1"));
