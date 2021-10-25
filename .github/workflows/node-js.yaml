@@ -10,8 +10,6 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
-    - name: whoami
-      run : whoami
     - uses: actions/checkout@v2
     - name: Installation
       run: npm ci
