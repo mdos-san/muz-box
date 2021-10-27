@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import AuthService from "./AuthService";
+import AuthService from "./services/AuthService";
 import MusicCounter from "./MusicCounter";
 import MusicDisplayer from "./MusicDisplayer";
 import QRCode from "./QRCode";

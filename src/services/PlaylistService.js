@@ -1,5 +1,4 @@
 import Watcher from "@mdos-san/watcher";
-import MainService from "./MainService";
 
 const PlaylistService = (SocketService) => {
   let initiated = false;
@@ -31,8 +30,8 @@ const PlaylistService = (SocketService) => {
   };
 
   const init = () => {
-    playlist.musicList = MainService.socket.getCache();
-    MainService.socket.watchCache((cache) => {
+    playlist.musicList = SocketService.getCache();
+    SocketService.watchCache((cache) => {
       if (initiated) {
         playlist.newList.push(cache[cache.length - 1]);
       }

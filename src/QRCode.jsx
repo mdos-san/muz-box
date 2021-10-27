@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import QRCodeLib from "qrcode";
-import AuthService from "./AuthService";
+import AuthService from "./services/AuthService";
 
 const QRCode = ({ jwt }) => {
   useEffect(() => {

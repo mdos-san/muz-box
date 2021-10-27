@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import AuthService from "./AuthService";
-import MainService from "./MainService";
+import AuthService from "./services/AuthService";
+import Services from "./services";
 
 const YoutubeInput = () => {
   const [inputText, setInputText] = useState("");
@@ -10,9 +10,9 @@ const YoutubeInput = () => {
 
   const onClick = () => {
     if (inputText.indexOf("=") > -1) {
-      MainService.socket.emit("add-to-cache", jwt.id, inputText.split("=")[1]);
+      Services.socket.emit("add-to-cache", jwt.id, inputText.split("=")[1]);
     } else {
-      MainService.socket.emit("add-to-cache", jwt.id, inputText.split("/")[3]);
+      Services.socket.emit("add-to-cache", jwt.id, inputText.split("/")[3]);
     }
     setInputText("");
   };

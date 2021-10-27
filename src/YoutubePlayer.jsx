@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import MainService from "./MainService";
+import Services from "./services";
 
 const YoutubePlayer = () => {
   const [musicId, setMusicId] = useState(null);
 
-  useEffect(() => MainService.playlist.watchMusicId(setMusicId), []);
+  useEffect(() => Services.playlist.watchMusicId(setMusicId), []);
 
   if (musicId === null || musicId === undefined) {
     return <p className="youtube-player">No music in playlist</p>;

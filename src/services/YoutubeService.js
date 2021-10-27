@@ -1,17 +1,15 @@
-import MainService from "./MainService";
-
-const YoutubeService = (YT) => {
+const YoutubeService = (YT, PlaylistService) => {
   let player = null;
 
   const init = () => {
     const onReady = (event) => {
-      const musicId = MainService.playlist.setNextMusicId();
+      const musicId = PlaylistService.setNextMusicId();
       player.loadVideoById(musicId);
     };
 
     const onStateChange = (event) => {
       if (event.data === 0) {
-        const musicId = MainService.playlist.setNextMusicId();
+        const musicId = PlaylistService.setNextMusicId();
         player.loadVideoById(musicId);
       }
     };
@@ -33,7 +31,7 @@ const YoutubeService = (YT) => {
       if (player.getIframe() === null) {
         init(); // retry init
       }
-    }, 3000);
+    }, 1000);
   };
 
   return { init };
