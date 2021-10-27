@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const AuthFactory = require("@sharp-mds/auth");
 const SocketCacheFactory = require("@sharp-mds/socket-cache");
 
