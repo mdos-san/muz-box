@@ -114,3 +114,8 @@ body,
   width: 33vw !important;
   height: 33vw !important;
 }
+
+.logo {
+  width: 95vw;
+  max-width: 320px;
+}
