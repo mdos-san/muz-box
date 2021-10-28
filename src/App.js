@@ -19,7 +19,7 @@ const App = () => {
   return (
     <ServiceLoader>
       <div className="app">
-	<img class="logo" src="logo-muzbox.svg" />
+	<img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
         {!isClient && (
           <div className="main-part">
             <QRCode jwt={jwt} />

@@ -47,11 +47,11 @@ const clean = () => {
   window.localStorage.removeItem("cache");
 };
 
-test("Title is displayed", async () => {
+test("Logo is displayed", async () => {
   render(<App />);
 
-  // Assert: Title is displayed
-  await waitFor(() => screen.getByText("MuzBox"));
+  // Assert: Logo is displayed
+  await waitFor(() => screen.getByAltText("MuzBox"));
 
   clean();
 });
