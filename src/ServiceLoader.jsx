@@ -13,7 +13,10 @@ const ServiceLoader = ({ children }) => {
     return () => Services.clean();
   }, []);
 
-  return ready ? children : <div>Loading...</div>;
+  return ready ? children : <div className="loading-screen">
+    <img class="logo" src="logo-muzbox.svg" />
+    <div>Loading...</div>
+  </div>;
 };
 
 export default ServiceLoader;
