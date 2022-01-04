@@ -1,10 +1,17 @@
 {
-  "name": "muzbox",
+  "name": "@sharpmds/muzbox",
   "version": "0.1.0",
-  "private": true,
+  "scripts": {
+    "start": "concurrently 'react-scripts start' 'ts-node src/load-dev-env.js'",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false",
+    "test:lcov": "npm run test -- --coverage --watchAll=false && cp coverage/lcov.info .",
+    "eject": "react-scripts eject"
+  },
   "dependencies": {
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@mdos-san/watcher": "^2.0.0",
+    "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -17,12 +24,10 @@
     "socketio-jwt": "^4.6.2",
     "web-vitals": "^1.1.2"
   },
-  "scripts": {
-    "start": "concurrently 'react-scripts start' 'ts-node src/load-dev-env.js'",
-    "build": "react-scripts build",
-    "test": "react-scripts test --watchAll=false",
-    "test:lcov": "npm run test -- --coverage --watchAll=false && cp coverage/lcov.info .",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "canvas": "^2.8.0",
+    "concurrently": "^6.2.2",
+    "ts-node": "^10.2.1"
   },
   "eslintConfig": {
     "extends": [
@@ -46,12 +51,5 @@
     "coverageReporters": [
       "lcov"
     ]
-  },
-  "devDependencies": {
-    "@sharp-mds/auth": "github:sharp-mds/auth",
-    "@sharp-mds/socket-cache": "github:sharp-mds/socket-cache",
-    "canvas": "^2.8.0",
-    "concurrently": "^6.2.2",
-    "ts-node": "^10.2.1"
   }
 }
