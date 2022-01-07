@@ -2,13 +2,12 @@ import Watcher from "@mdos-san/watcher";
 import runtimeEnv from "@mars/heroku-js-runtime-env";
 import { io } from "socket.io-client";
 
-const createSocket = (token) => {
+const createSocket = (json) => {
   const env = runtimeEnv();
 
   return io(env.REACT_APP_SOCKET_CACHE_URL, {
     forceNew: true,
-    query: `token=${token}`,
-    extraHeaders: { Authorization: `Bearer ${token}` },
+    extraHeaders: { json: JSON.stringify(json) },
   });
 };
 
@@ -17,14 +16,16 @@ const SocketService = () => {
   const [watchSocket, setSocket, getSocket] = Watcher(null);
   const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
 
-  const init = async (token, jwt) => {
+  const init = async (roomService) => {
+    const room = roomService.getRoom();
+
     const localCache = window.localStorage.getItem("cache");
     if (localCache !== null) {
       setCache(JSON.parse(localCache));
     }
 
     // Init socket
-    const socket = createSocket(token);
+    const socket = createSocket(room);
     return new Promise((res, rej) => {
       socket.on("connect", () => {
         setSocket(socket);
@@ -32,7 +33,7 @@ const SocketService = () => {
         res();
       });
 
-      socket.on(`add-to-cache[${jwt.id}]`, (musicId) => {
+      socket.on(`add-to-cache[${room.roomId}]`, (musicId) => {
         const newCache = [...getCache(), musicId];
         setCache(newCache);
         window.localStorage.setItem("cache", JSON.stringify(newCache));
@@ -58,7 +59,16 @@ const SocketService = () => {
     });
   };
 
-  return { emit, init, watchCache, watchSocket, clean, watchStatus, getStatus, getCache };
+  return {
+    emit,
+    init,
+    watchCache,
+    watchSocket,
+    clean,
+    watchStatus,
+    getStatus,
+    getCache,
+  };
 };
 
 export default SocketService;

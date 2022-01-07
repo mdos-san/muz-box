@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 
-import AuthService from "./services/AuthService";
 import MusicCounter from "./MusicCounter";
 import MusicDisplayer from "./MusicDisplayer";
 import QRCode from "./QRCode";
@@ -12,9 +11,6 @@ import YoutubePlayer from "./YoutubePlayer";
 const App = () => {
   const [jwt, setJWT] = useState({});
   const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => AuthService.watchJWT(setJWT), []);
-  useEffect(() => AuthService.watchIsClient(setIsClient), []);
 
   return (
     <ServiceLoader>
@@ -35,7 +31,6 @@ const App = () => {
             <SocketStatus />
           </div>
         )}
-        <span className="room-id">RoomId: {jwt.id}</span>
       </div>
     </ServiceLoader>
   );

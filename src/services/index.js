@@ -1,5 +1,5 @@
-import AuthService from "./AuthService";
 import PlaylistService from "./PlaylistService";
+import RoomService from "./RoomService";
 import SocketService from "./SocketService";
 import YoutubeService from "./YoutubeService";
 
@@ -8,10 +8,12 @@ const Services = () => {
 
   services.init = async () => {
     const urlToken = window.location.pathname.slice(1);
-    await AuthService.init(urlToken);
+
+    services.room = RoomService();
+    services.room.init();
 
     services.socket = SocketService();
-    await services.socket.init(AuthService.getEncodedJWT(), AuthService.getJWT());
+    await services.socket.init(services.room);
 
     services.playlist = PlaylistService(services.socket);
     services.playlist.init();
@@ -22,6 +24,7 @@ const Services = () => {
 
   services.clean = () => {
     services.socket.clean();
+
     services.playlist.clean();
   };
 

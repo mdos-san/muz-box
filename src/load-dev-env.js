@@ -1,6 +1,4 @@
 /* istanbul ignore file */
-const AuthFactory = require("@sharp-mds/auth");
-const SocketCacheFactory = require("@sharp-mds/socket-cache");
+const MuzBoxSocketFactory = require("@sharp-mds/muzbox-socket");
 
-AuthFactory(8080, "test-secret", "*");
-SocketCacheFactory(8081, null, "test-secret", "*");
+MuzBoxSocketFactory(8081, "http://localhost:3000");
