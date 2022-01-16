@@ -14,20 +14,20 @@ const YoutubeService = (YT, PlaylistService) => {
       }
     };
 
-    setTimeout(() => {
-      player = new YT.Player("youtube-player", {
-        height: "390",
-        width: "640",
-        videoId: "M7lc1UVf-VE",
-        playerVars: {
-          playsinline: 1,
-        },
-        events: {
-          onReady,
-          onStateChange,
-        },
-      });
+    player = new YT.Player("youtube-player", {
+      height: "390",
+      width: "640",
+      videoId: "M7lc1UVf-VE",
+      playerVars: {
+	playsinline: 1,
+      },
+      events: {
+	onReady,
+	onStateChange,
+      },
+    });
 
+    setTimeout(() => {
       if (player.getIframe() === null) {
         init(); // retry init
       }

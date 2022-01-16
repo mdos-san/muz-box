@@ -6,7 +6,7 @@ const MusicDisplayer = () => {
 
   useEffect(() => Services.room.watchRoom(setRoom), []);
 
-  return <p>Room Id: {room.roomId}</p>
+  return <p>Room Id: {(room.data) ? room.data.roomId : "empty"}</p>
 };
 
 export default MusicDisplayer;

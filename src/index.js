@@ -8,7 +8,7 @@ import "./index.css";
 const { protocol, hostname } = window.location;
 
 if (
-  !((protocol === "https:" && (hostname === "www.muz-box.com") || hostname === "localhost"))
+  !((protocol === "https:" && (hostname === "www.muz-box.com")) || hostname === "localhost")
 ) {
   window.location.replace("https://www.muz-box.com");
 }

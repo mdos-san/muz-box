@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import QRCodeLib from "qrcode";
-import AuthService from "./services/AuthService";
+import Services from "./services";
 
-const QRCode = ({ jwt }) => {
+const QRCode = () => {
   useEffect(() => {
+    const { jwt, secret } = Services.room.getRoom();
+    const token = btoa(JSON.stringify({ jwt, secret }));
     QRCodeLib.toCanvas(
       document.getElementById("qrcode"),
-      `${window.location.origin}/${AuthService.getEncodedJWT()}`
+      `${window.location.origin}/${token}`
     );
-  }, [jwt]);
+  }, []);
 
   return <canvas id="qrcode"></canvas>;
 };

@@ -7,8 +7,6 @@ const Services = () => {
   const services = {};
 
   services.init = async () => {
-    const urlToken = window.location.pathname.slice(1);
-
     services.room = RoomService();
     services.room.init();
 
@@ -24,7 +22,6 @@ const Services = () => {
 
   services.clean = () => {
     services.socket.clean();
-
     services.playlist.clean();
   };
 

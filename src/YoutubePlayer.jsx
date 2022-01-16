@@ -12,6 +12,7 @@ const YoutubePlayer = () => {
 
   return (
     <iframe
+      title="YouTube Player"
       id={`youtube-player`}
       className="youtube-player"
       width="640"

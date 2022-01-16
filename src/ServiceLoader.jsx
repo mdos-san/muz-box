@@ -17,7 +17,7 @@ const ServiceLoader = ({ children }) => {
     children
   ) : (
     <div className="loading-screen">
-      <img className="logo" src="logo-muzbox.svg" />
+	<img className="logo" src="logo-muzbox.svg" alt="MuzBox logo" />
       <div>Loading...</div>
     </div>
   );

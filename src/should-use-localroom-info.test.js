@@ -1,15 +1,20 @@
-
 import App from "./App";
 import { render, screen, waitFor } from "@testing-library/react";
+import jsonwebtoken from "jsonwebtoken";
 
 test("Should use token in local storage when available", async () => {
-  const token = "todo b64 token json"
+  const room = {
+    secret: "secret",
+    data: {
+      roomId: "predefined-id",
+    },
+    jwt: jsonwebtoken.sign({ roomId: "predefined-id" }, "secret"),
+  };
 
-  window.localStorage.setItem("token", token);
+  window.localStorage.setItem("room", JSON.stringify(room));
 
   render(<App />);
 
-  // Wait for socket to connect
-  await waitFor(() => screen.getByText("RoomId: predefined-id"));
+  await waitFor(() => screen.getByText("Socket connected"));
+  await waitFor(() => screen.getByText("Room Id: predefined-id"));
 });
-

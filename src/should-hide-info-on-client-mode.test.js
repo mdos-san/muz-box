@@ -1,9 +1,13 @@
 import App from "./App";
 import { render, screen, waitFor } from "@testing-library/react";
+import jsonwebtoken from "jsonwebtoken";
 
 test("Should hide youtube player/music counter in client mode", async () => {
-  // Start app in client mode
-  const token = "TODO-tocken";
+  const token = btoa(JSON.stringify({
+    jwt: jsonwebtoken.sign({ roomId: 42 }, "secret"),
+    secret: "secret"
+  }));
+
   Object.defineProperty(window, "location", {
     value: {
       pathname: "/" + token,
@@ -12,7 +16,7 @@ test("Should hide youtube player/music counter in client mode", async () => {
   const { container } = render(<App />);
 
   // Wait for socket to connect
-  await waitFor(() => screen.getByText("RoomId: predefined-id"));
+  await waitFor(() => screen.getByText("Socket connected"));
 
   expect(screen.queryByText(/Currently playing.*/)).not.toBeInTheDocument();
   expect(screen.queryByText(/Music counter.*/)).not.toBeInTheDocument();

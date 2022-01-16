@@ -1,5 +1,5 @@
 import App from "./App";
-import { render, fireEvent, screen, waitFor } from "@testing-library/react";
+import { act, render, fireEvent, screen, waitFor } from "@testing-library/react";
 
 test("Should change music when first is over", async () => {
   render(<App />);
@@ -24,7 +24,7 @@ test("Should change music when first is over", async () => {
 
   // Act: Wait first music to end
   act(() => {
-    configYT.events.onStateChange({ data: 0 });
+    global.configYT.events.onStateChange({ data: 0 });
   });
 
   // Assert: Second music should start
