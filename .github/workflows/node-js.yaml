@@ -13,9 +13,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Installation
       run: npm ci
-    - name: Test
-      run: npm run test
-    - name: Coverage report
+    - name: Test with coverage report
       uses: paambaati/codeclimate-action@v2.7.5
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
