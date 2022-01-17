@@ -11,7 +11,6 @@
   "dependencies": {
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@mdos-san/watcher": "^2.0.0",
-    "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -26,6 +25,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
     "canvas": "^2.8.0",
     "concurrently": "^6.2.2",
     "ts-node": "^10.2.1"
