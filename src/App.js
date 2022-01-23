@@ -1,5 +1,5 @@
 import ServiceLoader from "./ServiceLoader";
-import MainPage from "./MainPage";
+import MainPage from "./pages/MainPage";
 
 const App = () => (
   <ServiceLoader>

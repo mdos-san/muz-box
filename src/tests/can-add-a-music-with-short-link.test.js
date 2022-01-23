@@ -1,4 +1,4 @@
-import App from "./App";
+import App from "../App";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 
 test("Can add a music with short link", async () => {

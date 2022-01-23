@@ -1,4 +1,4 @@
-import App from "./App";
+import App from "../App";
 import { render, waitFor } from "@testing-library/react";
 
 test("Should display a QRCode in canvas", async () => {

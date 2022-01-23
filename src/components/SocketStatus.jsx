@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Services from "./services";
+import Services from "../services";
 
 const SocketStatus = () => {
   const [socketStatus, setSocketStatus] = useState(Services.socket.getStatus());

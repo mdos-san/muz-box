@@ -11,21 +11,21 @@ let muzboxSocket = null;
 beforeAll(() => {
   muzboxSocket = MuzBoxSocketFactory(4241, "http://localhost");
 
-// TODO: Try to make a cleaner mock interface
+  // TODO: Try to make a cleaner mock interface
   global.configYT = null;
   global.loadedVideo = null;
   global.YT = {
     Player: class {
       constructor(id, c) {
-	configYT = c;
+        configYT = c;
       }
 
       getIframe() {
-	return {};
+        return {};
       }
 
       loadVideoById(id) {
-	loadedVideo = id;
+        loadedVideo = id;
       }
     },
   };
@@ -34,4 +34,3 @@ beforeAll(() => {
 afterAll(() => {
   muzboxSocket.server.close();
 });
-

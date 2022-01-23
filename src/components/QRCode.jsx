@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import QRCodeLib from "qrcode";
-import Services from "./services";
+import Services from "../services";
 
 const QRCode = () => {
   useEffect(() => {

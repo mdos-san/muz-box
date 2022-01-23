@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import Services from "./services";
+import Services from "../services";
 
 const MusicDisplayer = () => {
   const [musicId, setMusicId] = useState(null);

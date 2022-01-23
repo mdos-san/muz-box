@@ -1,4 +1,4 @@
-import App from "./App";
+import App from "../App";
 import { act, render, fireEvent, screen, waitFor } from "@testing-library/react";
 
 test("Should change music when first is over", async () => {

@@ -1,4 +1,4 @@
-import App from "./App";
+import App from "../App";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 
 test("Should display a youtube player when music is added", async () => {

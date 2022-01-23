@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
-import MusicCounter from "./MusicCounter";
-import MusicDisplayer from "./MusicDisplayer";
-import QRCode from "./QRCode";
-import SocketStatus from "./SocketStatus";
-import YoutubeInput from "./YoutubeInput";
-import YoutubePlayer from "./YoutubePlayer";
-import RoomDisplayer from "./RoomDisplayer";
+import MusicCounter from "../components/MusicCounter";
+import MusicDisplayer from "../components/MusicDisplayer";
+import QRCode from "../components/QRCode";
+import SocketStatus from "../components/SocketStatus";
+import YoutubeInput from "../components/YoutubeInput";
+import YoutubePlayer from "../components/YoutubePlayer";
+import RoomDisplayer from "../components/RoomDisplayer";
 
 const MainPage = () => {
   const [isClient, setIsClient] = useState(false);

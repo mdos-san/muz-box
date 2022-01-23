@@ -1,5 +1,4 @@
-
-import App from "./App";
+import App from "../App";
 import { render, screen, waitFor } from "@testing-library/react";
 
 test("Should load music from local storage", async () => {
