@@ -32,5 +32,5 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  muzboxSocket.server.close();
+  muzboxSocket.gracefulStop();
 });
