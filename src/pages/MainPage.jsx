@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+import Services from "../services";
 import MusicCounter from "../components/MusicCounter";
 import MusicDisplayer from "../components/MusicDisplayer";
 import QRCode from "../components/QRCode";
@@ -18,25 +19,26 @@ const MainPage = () => {
   }, []);
 
   return (
-      <div className="app">
-        <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
-        {!isClient && (
-          <div className="main-part">
-            <QRCode />
-            <YoutubePlayer />
-          </div>
-        )}
-        <YoutubeInput />
-        {!isClient && (
-          // TODO: Make an info button
-          <div className="info">
-            <MusicCounter />
-            <MusicDisplayer />
-          </div>
-        )}
-        <SocketStatus />
-        <RoomDisplayer />
-      </div>
+    <div className="app">
+      <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
+      {!isClient && (
+        <div className="main-part">
+          <QRCode />
+          <YoutubePlayer />
+          <button onClick={() => Services.youtube.loadNextMusic()}>Skip</button>
+        </div>
+      )}
+      <YoutubeInput />
+      {!isClient && (
+        // TODO: Make an info button
+        <div className="info">
+          <MusicCounter />
+          <MusicDisplayer />
+        </div>
+      )}
+      <SocketStatus />
+      <RoomDisplayer />
+    </div>
   );
 };
 

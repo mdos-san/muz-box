@@ -3,27 +3,24 @@ const YoutubeService = (YT, PlaylistService) => {
 
   const init = () => {
     const onReady = (event) => {
-      const musicId = PlaylistService.setNextMusicId();
-      player.loadVideoById(musicId);
+      loadNextMusic();
     };
 
     const onStateChange = (event) => {
       if (event.data === 0) {
-        const musicId = PlaylistService.setNextMusicId();
-        player.loadVideoById(musicId);
+        loadNextMusic();
       }
     };
 
     player = new YT.Player("youtube-player", {
       height: "390",
       width: "640",
-      videoId: "M7lc1UVf-VE",
       playerVars: {
-	playsinline: 1,
+        playsinline: 1,
       },
       events: {
-	onReady,
-	onStateChange,
+        onReady,
+        onStateChange,
       },
     });
 
@@ -34,7 +31,12 @@ const YoutubeService = (YT, PlaylistService) => {
     }, 1000);
   };
 
-  return { init };
+  const loadNextMusic = () => {
+    const musicId = PlaylistService.setNextMusicId();
+    player.loadVideoById(musicId);
+  };
+
+  return { init, loadNextMusic };
 };
 
 export default YoutubeService;
