@@ -12,6 +12,10 @@ const YoutubeService = (YT, PlaylistService) => {
       }
     };
 
+    const onError = () => {
+      loadNextMusic();
+    };
+
     player = new YT.Player("youtube-player", {
       height: "390",
       width: "640",
@@ -21,6 +25,7 @@ const YoutubeService = (YT, PlaylistService) => {
       events: {
         onReady,
         onStateChange,
+        onError,
       },
     });
 

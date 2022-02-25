@@ -34,6 +34,10 @@ const SocketService = () => {
       });
 
       socket.on(`add-to-cache[${data.roomId}]`, (musicId) => {
+        if (!musicId) {
+          console.error(`Music id '${musicId}' is invalid`);
+          return;
+        }
         const newCache = [...getCache(), musicId];
         setCache(newCache);
         window.localStorage.setItem("cache", JSON.stringify(newCache));
