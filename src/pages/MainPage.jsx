@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Button } from "@sharpmds/core";
 
 import Services from "../services";
 import MusicCounter from "../components/MusicCounter";
@@ -25,16 +26,19 @@ const MainPage = () => {
         <div className="main-part">
           <QRCode />
           <YoutubePlayer />
-          <button onClick={() => Services.youtube.loadNextMusic()}>Skip</button>
         </div>
       )}
       <YoutubeInput />
       {!isClient && (
-        // TODO: Make an info button
-        <div className="info">
-          <MusicCounter />
-          <MusicDisplayer />
-        </div>
+        <>
+          <Button onClick={() => Services.youtube.loadNextMusic()}>
+            Musique suivante
+          </Button>
+          <div className="info">
+            <MusicCounter />
+            <MusicDisplayer />
+          </div>
+        </>
       )}
       <SocketStatus />
       <RoomDisplayer />
