@@ -12,7 +12,7 @@ test("Should load music from local storage", async () => {
   // Wait for socket to connect
   await waitFor(() => {
     expect(screen.getByText("Socket connected")).toBeInTheDocument();
-    expect(screen.getByText("Music counter: 2")).toBeInTheDocument();
+    expect(screen.getByText("Titres dans la Muz-Box: 2")).toBeInTheDocument();
   });
 });
 

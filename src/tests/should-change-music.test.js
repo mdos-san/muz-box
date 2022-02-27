@@ -7,17 +7,17 @@ test("Should change music when first is over", async () => {
   await waitFor(() => screen.getByText("No music in playlist"));
 
   // Add first music
-  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Partager un lien Youtube" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-1" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Share" }));
+  fireEvent.click(screen.getByRole("button", { name: "Partager" }));
 
   // Add second music
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=id-2" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Share" }));
+  fireEvent.click(screen.getByRole("button", { name: "Partager" }));
 
   // Assert: First music should start
   await waitFor(() => screen.getByText("Currently playing id-1"));

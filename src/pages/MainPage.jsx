@@ -22,13 +22,13 @@ const MainPage = () => {
   return (
     <div className="app">
       <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
+      <YoutubeInput />
       {!isClient && (
         <div className="main-part">
           <QRCode />
           <YoutubePlayer />
         </div>
       )}
-      <YoutubeInput />
       {!isClient && (
         <>
           <Button onClick={() => Services.youtube.loadNextMusic()}>

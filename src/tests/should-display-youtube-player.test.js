@@ -7,11 +7,11 @@ test("Should display a youtube player when music is added", async () => {
   // Assert: Message should be displayed when no music is in playlist
   await waitFor(() => screen.getByText("No music in playlist"));
 
-  const input = screen.getByRole("textbox", { name: "Share a Youtube link" });
+  const input = screen.getByRole("textbox", { name: "Partager un lien Youtube" });
   fireEvent.change(input, {
     target: { value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
   });
-  fireEvent.click(screen.getByRole("button", { name: "Share" }));
+  fireEvent.click(screen.getByRole("button", { name: "Partager" }));
 
   await waitFor(() => {
     // Assert: youtube player should be loaded with correct id

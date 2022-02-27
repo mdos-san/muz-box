@@ -6,7 +6,7 @@ const MusicDisplayer = () => {
 
   useEffect(() => Services.playlist.watchMusicId(setMusicId), []);
 
-  return <p>Currently playing {musicId}</p>
+  return <p className="hidden">Currently playing {musicId}</p>
 };
 
 export default MusicDisplayer;

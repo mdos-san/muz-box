@@ -6,7 +6,7 @@ const SocketStatus = () => {
 
   useEffect(() => Services.socket.watchStatus(setSocketStatus), [])
 
-  return <div>{socketStatus}</div>
+  return <div className="hidden">{socketStatus}</div>
 }
 
 export default SocketStatus;
