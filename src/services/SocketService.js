@@ -11,12 +11,12 @@ const createSocket = (jwt, secret) => {
   });
 };
 
-const SocketService = () => {
+const SocketService = (roomService) => {
   const [watchCache, setCache, getCache] = Watcher([]);
   const [watchSocket, setSocket, getSocket] = Watcher(null);
   const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
 
-  const init = async (roomService) => {
+  const init = async () => {
     const { jwt, secret, data } = roomService.getRoom();
 
     const localCache = window.localStorage.getItem("cache");
@@ -25,12 +25,19 @@ const SocketService = () => {
     }
 
     // Init socket
+    console.log("Connecting to room", data);
     const socket = createSocket(jwt, secret);
+
     return new Promise((res, rej) => {
       socket.on("connect", () => {
+        console.log("setting socket");
         setSocket(socket);
         setStatus("Socket connected");
         res();
+      });
+
+      socket.on("error", (err) => {
+        console.error(err);
       });
 
       socket.on(`add-to-cache[${data.roomId}]`, (musicId) => {
@@ -63,15 +70,23 @@ const SocketService = () => {
     });
   };
 
+  const cleanSocket = () => {
+    const socket = getSocket();
+    if (socket !== null) {
+      socket.destroy();
+    }
+  };
+
   return {
+    clean,
+    cleanSocket,
     emit,
+    getCache,
+    getStatus,
     init,
     watchCache,
     watchSocket,
-    clean,
     watchStatus,
-    getStatus,
-    getCache,
   };
 };
 

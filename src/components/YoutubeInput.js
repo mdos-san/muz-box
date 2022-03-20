@@ -16,7 +16,7 @@ const YoutubeInput = () => {
   return (
     <div className="youtube-input">
       <label className="youtube-input__label" htmlFor="youtube-input">
-        Partager un lien Youtube
+        Partage ton lien YouTube ici !
       </label>
       <input
         id="youtube-input"

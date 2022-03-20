@@ -10,8 +10,8 @@ const Services = () => {
     services.room = RoomService();
     services.room.init();
 
-    services.socket = SocketService();
-    await services.socket.init(services.room);
+    services.socket = SocketService(services.room);
+    await services.socket.init();
 
     services.playlist = PlaylistService(services.socket);
     services.playlist.init();

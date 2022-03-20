@@ -1,6 +1,7 @@
 import Watcher from "@mdos-san/watcher";
 import jsonwebtoken from "jsonwebtoken";
 import { v4 } from "uuid";
+import Services from "./index";
 
 const RoomService = () => {
   const [watchRoom, setRoom, getRoom] = Watcher({});
@@ -35,7 +36,16 @@ const RoomService = () => {
     saveRoomAndPropagate({ data, jwt, secret });
   };
 
-  return { init, watchRoom, getRoom };
+  const loadRoomWithJWT = (roomJWT) => {
+    const jsonString = atob(roomJWT);
+    const { jwt, secret } = JSON.parse(jsonString);
+    const data = jsonwebtoken.verify(jwt, secret);
+    saveRoomAndPropagate({ data, jwt, secret });
+    Services.socket.cleanSocket();
+    Services.socket.init();
+  }
+
+  return { init, watchRoom, getRoom, loadRoomWithJWT };
 };
 
 export default RoomService;
