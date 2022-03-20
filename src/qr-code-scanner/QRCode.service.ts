@@ -1,9 +1,9 @@
-import { BrowserQRCodeReader } from "@zxing/library";
+import { BrowserQRCodeReader, VideoInputDevice } from "@zxing/library";
 import { Services } from "@sharpmds/core";
 import MBServices from "../services";
 
 const QRCodeService = () => {
-  let devices = [];
+  let devices: VideoInputDevice[] = [];
   let deviceIndex = 0;
 
   const codeReader = new BrowserQRCodeReader();

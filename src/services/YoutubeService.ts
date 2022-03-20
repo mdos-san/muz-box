@@ -1,12 +1,14 @@
-const YoutubeService = (YT, PlaylistService) => {
-  let player = null;
+import { PlaylistServiceInterface } from "./PlaylistService";
+
+const YoutubeService = (YT: any, playlistService: PlaylistServiceInterface) => {
+  let player: any = null;
 
   const init = () => {
-    const onReady = (event) => {
+    const onReady = () => {
       loadNextMusic();
     };
 
-    const onStateChange = (event) => {
+    const onStateChange = (event: any) => {
       if (event.data === 0) {
         loadNextMusic();
       }
@@ -37,7 +39,7 @@ const YoutubeService = (YT, PlaylistService) => {
   };
 
   const loadNextMusic = () => {
-    const musicId = PlaylistService.setNextMusicId();
+    const musicId = playlistService.setNextMusicId();
     player.loadVideoById(musicId);
   };
 

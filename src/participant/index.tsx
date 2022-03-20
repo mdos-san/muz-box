@@ -1,7 +1,6 @@
 import YoutubeInput from "../components/YoutubeInput";
 import SocketStatus from "../components/SocketStatus";
-import {Center, Separator} from "@sharpmds/core";
-
+import { Center, Separator } from "@sharpmds/core";
 
 const ParticipantPage = () => {
   return (

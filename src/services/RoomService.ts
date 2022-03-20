@@ -1,12 +1,43 @@
-import Watcher from "@mdos-san/watcher";
+import { Watcher } from "@sharpmds/core";
+import {
+  GetWatcherValue,
+  WatchValue,
+} from "@sharpmds/core/build/esm/utils/Watcher";
 import jsonwebtoken from "jsonwebtoken";
 import { v4 } from "uuid";
 import Services from "./index";
 
-const RoomService = () => {
-  const [watchRoom, setRoom, getRoom] = Watcher({});
+export interface RoomData {
+  roomId: string;
+}
 
-  const saveRoomAndPropagate = (room) => {
+export interface Room {
+  data: RoomData;
+  secret: string;
+  jwt: string;
+}
+
+export interface RoomServiceConstructor {
+  (): RoomServiceInterface;
+}
+
+export interface RoomServiceInterface {
+  init: () => void;
+  loadRoomWithJWT: (jwt: string) => void;
+  watchRoom: WatchValue<Room>;
+  getRoom: GetWatcherValue<Room>;
+}
+
+export const DEFAULT_ROOM: Room = {
+  data: { roomId: "default" },
+  secret: "",
+  jwt: "",
+};
+
+const RoomService: RoomServiceConstructor = () => {
+  const [watchRoom, setRoom, getRoom] = Watcher<Room>(DEFAULT_ROOM);
+
+  const saveRoomAndPropagate = (room: Room) => {
     setRoom(room);
     window.localStorage.setItem("room", JSON.stringify(room));
   };
@@ -23,7 +54,7 @@ const RoomService = () => {
     const token = window.location.pathname.slice(1);
     const jsonString = atob(token);
     const { jwt, secret } = JSON.parse(jsonString);
-    const data = jsonwebtoken.verify(jwt, secret);
+    const data = jsonwebtoken.verify(jwt, secret) as RoomData;
     saveRoomAndPropagate({ data, jwt, secret });
   };
 
@@ -36,14 +67,14 @@ const RoomService = () => {
     saveRoomAndPropagate({ data, jwt, secret });
   };
 
-  const loadRoomWithJWT = (roomJWT) => {
+  const loadRoomWithJWT = (roomJWT: string) => {
     const jsonString = atob(roomJWT);
     const { jwt, secret } = JSON.parse(jsonString);
-    const data = jsonwebtoken.verify(jwt, secret);
+    const data = jsonwebtoken.verify(jwt, secret) as RoomData;
     saveRoomAndPropagate({ data, jwt, secret });
     Services.socket.cleanSocket();
     Services.socket.init();
-  }
+  };
 
   return { init, watchRoom, getRoom, loadRoomWithJWT };
 };

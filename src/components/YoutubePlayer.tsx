@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Services from "../services";
 
 const YoutubePlayer = () => {
-  const [musicId, setMusicId] = useState(null);
+  const [musicId, setMusicId] = useState<string | null>(null);
 
   useEffect(() => Services.playlist.watchMusicId(setMusicId), []);
 

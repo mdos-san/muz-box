@@ -1,19 +1,34 @@
-import Watcher from "@mdos-san/watcher";
+// @ts-ignore
 import runtimeEnv from "@mars/heroku-js-runtime-env";
-import { io } from "socket.io-client";
+import { Watcher } from "@sharpmds/core";
+import {
+  GetWatcherValue,
+  WatchValue,
+} from "@sharpmds/core/build/esm/utils/Watcher";
+import { io, Socket } from "socket.io-client";
+import { RoomServiceInterface } from "./RoomService";
 
-const createSocket = (jwt, secret) => {
-  const env = runtimeEnv();
+export interface SocketServiceConstructor {
+  (roomService: RoomServiceInterface): SocketServiceInterface;
+}
 
-  return io(env.REACT_APP_SOCKET_CACHE_URL, {
-    forceNew: true,
-    extraHeaders: { jwt, secret },
-  });
-};
+export interface SocketServiceInterface {
+  clean: () => void;
+  cleanSocket: () => void;
+  emit: (name: string, ...args: unknown[]) => void;
+  getCache: GetWatcherValue<string[]>;
+  getStatus: GetWatcherValue<string>;
+  init: () => Promise<unknown>;
+  watchCache: WatchValue<string[]>;
+  watchSocket: WatchValue<Socket | null>;
+  watchStatus: WatchValue<string>;
+}
 
-const SocketService = (roomService) => {
-  const [watchCache, setCache, getCache] = Watcher([]);
-  const [watchSocket, setSocket, getSocket] = Watcher(null);
+const SocketService: SocketServiceConstructor = (
+  roomService: RoomServiceInterface
+) => {
+  const [watchCache, setCache, getCache] = Watcher<string[]>([]);
+  const [watchSocket, setSocket, getSocket] = Watcher<Socket | null>(null);
   const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
 
   const init = async () => {
@@ -28,7 +43,7 @@ const SocketService = (roomService) => {
     console.log("Connecting to room", data);
     const socket = createSocket(jwt, secret);
 
-    return new Promise((res, rej) => {
+    return new Promise<void>((res, rej) => {
       socket.on("connect", () => {
         console.log("setting socket");
         setSocket(socket);
@@ -52,8 +67,13 @@ const SocketService = (roomService) => {
     });
   };
 
-  const emit = (name, ...args) => {
+  const emit = (name: string, ...args: unknown[]) => {
     const socket = getSocket();
+
+    if (socket === null) {
+      console.error(`[SocketService - emit] socket is null`);
+      return;
+    }
 
     if (socket.connected) {
       socket.emit(name, ...args);
@@ -63,9 +83,9 @@ const SocketService = (roomService) => {
   };
 
   const clean = () => {
-    watchSocket((s) => {
-      if (s !== null) {
-        s.destroy();
+    watchSocket((socket: Socket | null) => {
+      if (socket !== null) {
+        socket.disconnect();
       }
     });
   };
@@ -73,7 +93,7 @@ const SocketService = (roomService) => {
   const cleanSocket = () => {
     const socket = getSocket();
     if (socket !== null) {
-      socket.destroy();
+      socket.disconnect();
     }
   };
 
@@ -88,6 +108,15 @@ const SocketService = (roomService) => {
     watchSocket,
     watchStatus,
   };
+};
+
+const createSocket = (jwt: string, secret: string) => {
+  const env = runtimeEnv();
+
+  return io(env.REACT_APP_SOCKET_CACHE_URL, {
+    forceNew: true,
+    extraHeaders: { jwt, secret },
+  });
 };
 
 export default SocketService;

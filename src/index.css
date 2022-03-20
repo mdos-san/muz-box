@@ -58,7 +58,7 @@ body,
   opacity: 0.8;
   font-weight: bold;
   letter-spacing: 1px;
-  font-size: 18px
+  font-size: 18px;
 }
 
 .youtube-input__input {
@@ -142,5 +142,4 @@ body,
 .music-counter {
   font-size: 24px;
   font-weight: bold;
-
 }

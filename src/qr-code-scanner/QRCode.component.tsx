@@ -14,7 +14,9 @@ const QRCodeWrapper = () => {
       <Separator margin="16px 0 0 0">
         <h2>Scanne un QRCode Muz-Box !</h2>
         <video id="qrcode-scanner" className="qrcode__scanner"></video>
-        <Button onClick={QRCodeService.changeDevice()}>Changer de camera</Button>
+        <Button onClick={() => QRCodeService.changeDevice()}>
+          Changer de camera
+        </Button>
       </Separator>
     </div>
   );

@@ -6,7 +6,7 @@ const ModeSelectorPage = () => {
       <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
       <Separator margin="32px 0 0 0">
         <Button onClick={() => Services.router.setPage("room")}>
-          Creer une Muz-Box
+          Creer une Muz-Box - Youtube
         </Button>
         <Button
           onClick={() => Services.router.setPage("qr-code-scanner")}

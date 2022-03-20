@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Services from "./services";
 
-const ServiceLoader = ({ children }) => {
+interface Props {
+  children: JSX.Element;
+}
+
+const ServiceLoader = ({ children }: Props): JSX.Element => {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -17,7 +21,7 @@ const ServiceLoader = ({ children }) => {
     children
   ) : (
     <div className="loading-screen">
-	<img className="logo" src="logo-muzbox.svg" alt="MuzBox logo" />
+      <img className="logo" src="logo-muzbox.svg" alt="MuzBox logo" />
       <div>Loading...</div>
     </div>
   );

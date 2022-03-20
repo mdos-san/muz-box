@@ -6,6 +6,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false --runInBand --passWithNoTests",
     "test:lcov": "npm run test -- --coverage --watchAll=false --passWithNoTests && cp coverage/lcov.info .",
+    "prettier:lint": "prettier -w -u 'src/**/*'",
     "eject": "react-scripts eject"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "@types/react-dom": "^17.0.14",
     "@zxing/library": "^0.19.1",
     "jsonwebtoken": "^8.5.1",
+    "prettier": "^2.6.0",
     "qrcode": "^1.4.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -33,6 +35,9 @@
   },
   "devDependencies": {
     "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/qrcode": "^1.4.2",
+    "@types/uuid": "^8.3.4",
     "canvas": "^2.8.0",
     "concurrently": "^6.2.2",
     "ts-node": "^10.2.1"

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import QRCodeLib from "qrcode";
 import Services from "../services";
 
