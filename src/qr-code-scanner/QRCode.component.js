@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
 import QRCodeService from "./QRCode.service";
 
-const QRCodeWrapper = ({ isActive = true}) => {
+import "./QRCode.css";
+
+const QRCodeWrapper = () => {
   useEffect(() => {
     QRCodeService.scan();
   }, []);
 
   return (
-    <div
-      className={`qrcode-wrapper ${isActive ? "qrcode-wrapper--active" : ""}`}
-    >
-      <video id="qrcode-scanner"></video>
+    <div className="page--qrcode">
+      <video id="qrcode-scanner" className="qrcode__scanner"></video>
     </div>
   );
 };
