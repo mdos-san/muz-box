@@ -11,35 +11,25 @@ import YoutubePlayer from "../components/YoutubePlayer";
 import RoomDisplayer from "../components/RoomDisplayer";
 
 const MainPage = () => {
-  const [isClient, setIsClient] = useState(false);
-
   useEffect(() => {
-    if (window.location.pathname !== "/") {
-      setIsClient(true);
-    }
+    Services.room.initRoom();
   }, []);
 
   return (
     <div className="app">
       <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
       <YoutubeInput />
-      {!isClient && (
-        <div className="main-part">
-          <QRCode />
-          <YoutubePlayer />
-        </div>
-      )}
-      {!isClient && (
-        <>
-          <Button onClick={() => Services.youtube.loadNextMusic()}>
-            Musique suivante
-          </Button>
-          <div className="info">
-            <MusicCounter />
-            <MusicDisplayer />
-          </div>
-        </>
-      )}
+      <div className="main-part">
+        <QRCode />
+        <YoutubePlayer />
+      </div>
+      <Button onClick={() => Services.youtube.loadNextMusic()}>
+        Musique suivante
+      </Button>
+      <div className="info">
+        <MusicCounter />
+        <MusicDisplayer />
+      </div>
       <SocketStatus />
       <RoomDisplayer />
     </div>

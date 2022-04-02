@@ -6,10 +6,10 @@ const QRCode = () => {
   useEffect(() => {
     const { jwt, secret } = Services.room.getRoom();
     const token = btoa(JSON.stringify({ jwt, secret }));
-    QRCodeLib.toCanvas(
-      document.getElementById("qrcode"),
-      `${window.location.origin}/${token}`
-    );
+    const url = `${window.location.origin}/#/client/${token}`;
+
+    QRCodeLib.toCanvas(document.getElementById("qrcode"), url);
+    console.log(`clientUrl: ${url}`);
   }, []);
 
   return <canvas id="qrcode"></canvas>;

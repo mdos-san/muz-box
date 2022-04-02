@@ -10,7 +10,7 @@ const Services = () => {
   const youtube = YoutubeService((global as any).YT, playlist);
 
   const init = async () => {
-    room.init();
+    room.initRoom();
     await socket.init();
     playlist.init();
     youtube.init();

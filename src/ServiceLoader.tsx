@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Services from "./services";
 
 interface Props {
@@ -22,7 +22,7 @@ const ServiceLoader = ({ children }: Props): JSX.Element => {
   ) : (
     <div className="loading-screen">
       <img className="logo" src="logo-muzbox.svg" alt="MuzBox logo" />
-      <div>Loading...</div>
+      <div>Chargement...</div>
     </div>
   );
 };

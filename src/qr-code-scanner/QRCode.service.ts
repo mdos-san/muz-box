@@ -17,7 +17,7 @@ const QRCodeService = () => {
       )
       .then((result) => {
         const jwt = result.getText().split("/")[3];
-        Services.router.setPage("participant");
+        Services.router.setPath(`/client/${jwt}`);
         MBServices.room.loadRoomWithJWT(jwt);
       })
       .catch((err) => {

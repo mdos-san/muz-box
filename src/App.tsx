@@ -6,17 +6,19 @@ import MainPage from "./pages/MainPage";
 import { Router } from "@sharpmds/core";
 import ModeSelectorPage from "./pages/ModeSelectorPage";
 
-const App = () => (
-  <ServiceLoader>
-    <Router
-      routes={{
-        default: <ModeSelectorPage />,
-        room: <MainPage />,
-        "qr-code-scanner": <QRCode />,
-        participant: <Participant />,
-      }}
-    />
-  </ServiceLoader>
-);
+const App = () => {
+  return (
+    <ServiceLoader>
+      <Router
+        routes={{
+          "/": <ModeSelectorPage />,
+          "/room": <MainPage />,
+          "/client/{clientToken}": <Participant />,
+          "/qrcodescanner": <QRCode />,
+        }}
+      />
+    </ServiceLoader>
+  );
+};
 
 export default App;

@@ -22,7 +22,7 @@ export interface RoomServiceConstructor {
 }
 
 export interface RoomServiceInterface {
-  init: () => void;
+  initRoom: () => void;
   loadRoomWithJWT: (jwt: string) => void;
   watchRoom: WatchValue<Room>;
   getRoom: GetWatcherValue<Room>;
@@ -40,22 +40,6 @@ const RoomService: RoomServiceConstructor = () => {
   const saveRoomAndPropagate = (room: Room) => {
     setRoom(room);
     window.localStorage.setItem("room", JSON.stringify(room));
-  };
-
-  const init = () => {
-    if (window.location.pathname !== "/") {
-      return initClient();
-    } else {
-      initRoom();
-    }
-  };
-
-  const initClient = () => {
-    const token = window.location.pathname.slice(1);
-    const jsonString = atob(token);
-    const { jwt, secret } = JSON.parse(jsonString);
-    const data = jsonwebtoken.verify(jwt, secret) as RoomData;
-    saveRoomAndPropagate({ data, jwt, secret });
   };
 
   const initRoom = () => {
@@ -76,7 +60,7 @@ const RoomService: RoomServiceConstructor = () => {
     Services.socket.init();
   };
 
-  return { init, watchRoom, getRoom, loadRoomWithJWT };
+  return { initRoom, watchRoom, getRoom, loadRoomWithJWT };
 };
 
 export default RoomService;
