@@ -1,6 +1,5 @@
 import { BrowserQRCodeReader, VideoInputDevice } from "@zxing/library";
 import { Services } from "@sharpmds/core";
-import MBServices from "../services";
 
 const QRCodeService = () => {
   let devices: VideoInputDevice[] = [];
@@ -16,9 +15,8 @@ const QRCodeService = () => {
         "qrcode-scanner"
       )
       .then((result) => {
-        const jwt = result.getText().split("/")[3];
-        Services.router.setPath(`/client/${jwt}`);
-        MBServices.room.loadRoomWithJWT(jwt);
+        const path = result.getText().split("#")[1];
+        Services.router.setPath(path);
       })
       .catch((err) => {
         console.error(err);
