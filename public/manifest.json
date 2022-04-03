@@ -1,10 +1,10 @@
 {
   "short_name": "Muz-Box",
-  "name": "Muz-Box: Le partage de musique qui sauve tes soirées!",
+  "name": "Muz-Box",
   "icons": [
     {
       "src": "favicon.png",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "64x64",
       "type": "image/png"
     },
     {
@@ -18,7 +18,7 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"

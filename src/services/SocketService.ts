@@ -50,7 +50,7 @@ const SocketService: SocketServiceConstructor = (
       });
 
       socket.on("connect_error", (err) => {
-        console.error("custom", JSON.stringify(err));
+        console.error("custom", JSON.stringify(err), window.location.href);
       });
 
       socket.on(`add-to-cache`, (musicId) => {
