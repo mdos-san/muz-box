@@ -32,30 +32,28 @@ const SocketService: SocketServiceConstructor = (
   const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
 
   const init = async () => {
-    const { jwt, secret, data } = roomService.getRoom();
+    const { data } = roomService.getRoom();
 
     const localCache = window.localStorage.getItem("cache");
     if (localCache !== null) {
       setCache(JSON.parse(localCache));
     }
 
-    // Init socket
-    console.log("Connecting to room", data);
-    const socket = createSocket(jwt, secret);
+    const socket = createSocket();
 
     return new Promise<void>((res, rej) => {
       socket.on("connect", () => {
-        console.log("setting socket");
+        socket.emit("join", data.roomId);
         setSocket(socket);
         setStatus("Socket connected");
         res();
       });
 
-      socket.on("error", (err) => {
-        console.error(err);
+      socket.on("connect_error", (err) => {
+        console.error("custom", JSON.stringify(err));
       });
 
-      socket.on(`add-to-cache[${data.roomId}]`, (musicId) => {
+      socket.on(`add-to-cache`, (musicId) => {
         if (!musicId) {
           console.error(`Music id '${musicId}' is invalid`);
           return;
@@ -110,12 +108,9 @@ const SocketService: SocketServiceConstructor = (
   };
 };
 
-const createSocket = (jwt: string, secret: string) => {
-  const env = runtimeEnv();
-
-  return io(env.REACT_APP_SOCKET_CACHE_URL, {
+const createSocket = () => {
+  return io(process.env.REACT_APP_SOCKET_CACHE_URL || "http://localhost:8081", {
     forceNew: true,
-    extraHeaders: { jwt, secret },
   });
 };
 

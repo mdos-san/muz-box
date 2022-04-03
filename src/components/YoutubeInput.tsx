@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Services from "../services";
 
 const YoutubeInput = () => {
@@ -6,9 +6,9 @@ const YoutubeInput = () => {
 
   const onClick = () => {
     if (inputText.indexOf("=") > -1) {
-      Services.socket.emit("add-to-cache", inputText.split("=")[1]);
+      Services.socket.emit("add-to-cache", Services.room.getRoom().data.roomId, inputText.split("=")[1]);
     } else {
-      Services.socket.emit("add-to-cache", inputText.split("/")[3]);
+      Services.socket.emit("add-to-cache",  Services.room.getRoom().data.roomId, inputText.split("/")[3]);
     }
     setInputText("");
   };

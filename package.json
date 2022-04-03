@@ -10,6 +10,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@capacitor/android": "^3.4.3",
+    "@capacitor/core": "^3.4.3",
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@mdos-san/watcher": "^2.0.0",
     "@sharpmds/core": "^1.5.4",
@@ -37,6 +39,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "^3.4.3",
     "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
     "canvas": "^2.8.0",
     "concurrently": "^6.2.2",
