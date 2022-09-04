@@ -1,0 +1,29 @@
+{
+  "name": "@sharp-mds/muzbox-socket",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "tap",
+    "test:lcov": "tap --coverage-report=text-lcov > ./lcov.info"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sharp-mds/socket-cache.git"
+  },
+  "author": "mdos-san",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sharp-mds/socket-cache/issues"
+  },
+  "homepage": "https://github.com/sharp-mds/socket-cache#readme",
+  "devDependencies": {
+    "socket.io-client": "^4.2.0",
+    "tap": "^15.0.9"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "socket.io": "^4.2.0"
+  }
+}
