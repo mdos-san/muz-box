@@ -13,7 +13,7 @@
     "@capacitor/android": "^3.4.3",
     "@capacitor/core": "^3.4.3",
     "@mars/heroku-js-runtime-env": "^3.0.2",
-    "@mdos-san/watcher": "^2.0.0",
+    "@mdos-san/listenable-variable": "^1.1.0",
     "@sharpmds/core": "^1.5.4",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -41,7 +41,6 @@
   "devDependencies": {
     "@capacitor/cli": "^3.4.3",
     "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
-    "canvas": "^2.8.0",
     "concurrently": "^6.2.2",
     "ts-node": "^10.2.1"
   },

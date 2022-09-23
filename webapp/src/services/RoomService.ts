@@ -1,8 +1,4 @@
-import { Watcher } from "@sharpmds/core";
-import {
-  GetWatcherValue,
-  WatchValue,
-} from "@sharpmds/core/build/esm/utils/Watcher";
+import ListenableVar, { ListenableVarGet, ListenableVarListen } from "@mdos-san/listenable-variable";
 import jsonwebtoken from "jsonwebtoken";
 import { v4 } from "uuid";
 import Services from "./index";
@@ -24,8 +20,8 @@ export interface RoomServiceConstructor {
 export interface RoomServiceInterface {
   initRoom: () => void;
   loadRoomWithJWT: (jwt: string) => void;
-  watchRoom: WatchValue<Room>;
-  getRoom: GetWatcherValue<Room>;
+  watchRoom: ListenableVarListen<Room>;
+  getRoom: ListenableVarGet<Room>;
 }
 
 export const DEFAULT_ROOM: Room = {
@@ -35,7 +31,7 @@ export const DEFAULT_ROOM: Room = {
 };
 
 const RoomService: RoomServiceConstructor = () => {
-  const [watchRoom, setRoom, getRoom] = Watcher<Room>(DEFAULT_ROOM);
+  const [getRoom, setRoom, listenRoom] = ListenableVar<Room>(DEFAULT_ROOM);
 
   const saveRoomAndPropagate = (room: Room) => {
     setRoom(room);
@@ -60,7 +56,7 @@ const RoomService: RoomServiceConstructor = () => {
     Services.socket.init();
   };
 
-  return { initRoom, watchRoom, getRoom, loadRoomWithJWT };
+  return { initRoom, watchRoom: listenRoom, getRoom, loadRoomWithJWT };
 };
 
 export default RoomService;

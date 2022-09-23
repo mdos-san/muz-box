@@ -1,5 +1,6 @@
-import { Watcher } from "@sharpmds/core";
-import { WatchValue } from "@sharpmds/core/build/esm/utils/Watcher";
+import ListenableVar, {
+  ListenableVarListen,
+} from "@mdos-san/listenable-variable";
 import { SocketServiceInterface } from "./SocketService";
 
 export interface PlaylistServiceConstructor {
@@ -9,7 +10,7 @@ export interface PlaylistServiceConstructor {
 export interface PlaylistServiceInterface {
   init: () => void;
   clean: () => void;
-  watchMusicId: WatchValue<string | null>;
+  watchMusicId: ListenableVarListen<string | null>;
   setNextMusicId: () => void;
 }
 
@@ -22,7 +23,9 @@ const PlaylistService: PlaylistServiceConstructor = (
   socketService: SocketServiceInterface
 ) => {
   let initiated = false;
-  const [watchMusicId, setMusicId, getMusicId] = Watcher<string | null>(null);
+  const [getMusicId, setMusicId, listenMusicId] = ListenableVar<string | null>(
+    null
+  );
   let playlist: Playlist = {
     musicList: [],
     newList: [],
@@ -76,7 +79,7 @@ const PlaylistService: PlaylistServiceConstructor = (
     initiated = true;
   };
 
-  return { init, clean, watchMusicId, setNextMusicId };
+  return { init, clean, watchMusicId: listenMusicId, setNextMusicId };
 };
 
 export default PlaylistService;

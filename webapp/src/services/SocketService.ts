@@ -1,10 +1,4 @@
-// @ts-ignore
-import runtimeEnv from "@mars/heroku-js-runtime-env";
-import { Watcher } from "@sharpmds/core";
-import {
-  GetWatcherValue,
-  WatchValue,
-} from "@sharpmds/core/build/esm/utils/Watcher";
+import ListenableVar, { ListenableVarGet, ListenableVarListen } from "@mdos-san/listenable-variable";
 import { io, Socket } from "socket.io-client";
 import { RoomServiceInterface } from "./RoomService";
 
@@ -16,20 +10,20 @@ export interface SocketServiceInterface {
   clean: () => void;
   cleanSocket: () => void;
   emit: (name: string, ...args: unknown[]) => void;
-  getCache: GetWatcherValue<string[]>;
-  getStatus: GetWatcherValue<string>;
+  getCache: ListenableVarGet<string[]>;
+  getStatus: ListenableVarGet<string>;
   init: () => Promise<unknown>;
-  watchCache: WatchValue<string[]>;
-  watchSocket: WatchValue<Socket | null>;
-  watchStatus: WatchValue<string>;
+  watchCache: ListenableVarListen<string[]>;
+  watchSocket: ListenableVarListen<Socket | null>;
+  watchStatus: ListenableVarListen<string>;
 }
 
 const SocketService: SocketServiceConstructor = (
   roomService: RoomServiceInterface
 ) => {
-  const [watchCache, setCache, getCache] = Watcher<string[]>([]);
-  const [watchSocket, setSocket, getSocket] = Watcher<Socket | null>(null);
-  const [watchStatus, setStatus, getStatus] = Watcher("Socket not connected");
+  const [getCache, setCache, watchCache] = ListenableVar<string[]>([]);
+  const [getSocket, setSocket, watchSocket] = ListenableVar<Socket | null>(null);
+  const [getStatus, setStatus, watchStatus] = ListenableVar("Socket not connected");
 
   const init = async () => {
     const { data } = roomService.getRoom();
