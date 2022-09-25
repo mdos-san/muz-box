@@ -12,13 +12,13 @@ const YoutubePlayer = () => {
 
   return (
     <iframe
-      title="YouTube Player"
-      id={`youtube-player`}
-      className="youtube-player"
-      width="640"
-      height="360"
-      src={`https://www.youtube.com/embed/?enablejsapi=1&origin=${window.location.origin}`}
+      className="rounded h-full"
       frameBorder="0"
+      height="100%"
+      id="youtube-player"
+      src={`https://www.youtube.com/embed/?enablejsapi=1&origin=${window.location.origin}`}
+      title="YouTube Player"
+      width="100%"
     ></iframe>
   );
 };

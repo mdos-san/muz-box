@@ -1,17 +1,17 @@
-import ServiceLoader from "./ServiceLoader";
-import QRCode from "./qr-code-scanner/QRCode.component";
-import Participant from "./participant";
 import MainPage from "./pages/MainPage";
-
+import Participant from "./participant";
+import QRCode from "./qr-code-scanner/QRCode.component";
+import ServiceLoader from "./ServiceLoader";
 import { Router } from "@sharpmds/core";
-import ModeSelectorPage from "./pages/ModeSelectorPage";
+import HomePage from "./pages/HomePage";
+import Modal from "./ui/Modal";
 
 const App = () => {
   return (
     <ServiceLoader>
       <Router
         routes={{
-          "/": <ModeSelectorPage />,
+          "/": <HomePage />,
           "/room": <MainPage />,
           "/client/{clientToken}": <Participant />,
           "/qrcodescanner": <QRCode />,

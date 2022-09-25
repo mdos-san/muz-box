@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import Button from "../ui/Button";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import Page from "../components/Page";
 import QRCodeService from "./QRCode.service";
-
-import "./QRCode.css";
-import { Button, Separator } from "@sharpmds/core";
+import { Separator } from "@sharpmds/core";
+import { useEffect } from "react";
 
 const QRCodeWrapper = () => {
   useEffect(() => {
@@ -10,15 +12,20 @@ const QRCodeWrapper = () => {
   }, []);
 
   return (
-    <div className="page--qrcode">
-      <Separator margin="16px 0 0 0">
+    <Page>
+      <Header />
+
+      <div className="h-full">
         <h2>Scanne un QRCode Muz-Box !</h2>
-        <video id="qrcode-scanner" className="qrcode__scanner"></video>
-        <Button onClick={() => QRCodeService.changeDevice()}>
-          Changer de camera
-        </Button>
-      </Separator>
-    </div>
+        <video className="container"></video>
+        <Button
+          onClick={() => QRCodeService.changeDevice()}
+          label="Changer de camera"
+        />
+      </div>
+
+      <Footer />
+    </Page>
   );
 };
 

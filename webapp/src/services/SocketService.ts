@@ -1,4 +1,7 @@
-import ListenableVar, { ListenableVarGet, ListenableVarListen } from "@mdos-san/listenable-variable";
+import ListenableVar, {
+  ListenableVarGet,
+  ListenableVarListen,
+} from "@mdos-san/listenable-variable";
 import { io, Socket } from "socket.io-client";
 import { RoomServiceInterface } from "./RoomService";
 
@@ -22,8 +25,12 @@ const SocketService: SocketServiceConstructor = (
   roomService: RoomServiceInterface
 ) => {
   const [getCache, setCache, watchCache] = ListenableVar<string[]>([]);
-  const [getSocket, setSocket, watchSocket] = ListenableVar<Socket | null>(null);
-  const [getStatus, setStatus, watchStatus] = ListenableVar("Socket not connected");
+  const [getSocket, setSocket, watchSocket] = ListenableVar<Socket | null>(
+    null
+  );
+  const [getStatus, setStatus, watchStatus] = ListenableVar(
+    "Socket not connected"
+  );
 
   const init = async () => {
     const { data } = roomService.getRoom();

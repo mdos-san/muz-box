@@ -2,8 +2,11 @@
   "name": "@sharpmds/muzbox",
   "version": "0.1.0",
   "scripts": {
-    "start": "concurrently 'react-scripts start' 'node src/load-dev-env.js'",
+    "start": "npm-run-all -p start:react start:tailwind",
+    "start:react": "react-scripts start",
+    "start:tailwind": "npx tailwindcss -i ./css/index.css -o ./public/tailwind.css --watch",
     "build": "react-scripts build",
+    "build:tailwind": "npx tailwindcss -i ./css/index.css -o ./public/tailwind.css",
     "test": "react-scripts test --watchAll=false --runInBand --passWithNoTests",
     "test:lcov": "npm run test -- --coverage --watchAll=false --passWithNoTests && cp coverage/lcov.info .",
     "prettier:lint": "prettier -w -u 'src/**/*'",
@@ -12,9 +15,12 @@
   "dependencies": {
     "@capacitor/android": "^3.4.3",
     "@capacitor/core": "^3.4.3",
+    "@headlessui/react": "^1.7.2",
+    "@heroicons/react": "^2.0.11",
     "@mars/heroku-js-runtime-env": "^3.0.2",
     "@mdos-san/listenable-variable": "^1.1.0",
     "@sharpmds/core": "^1.5.4",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
@@ -42,6 +48,8 @@
     "@capacitor/cli": "^3.4.3",
     "@sharp-mds/muzbox-socket": "github:sharpmds/muzbox-socket",
     "concurrently": "^6.2.2",
+    "npm-run-all": "^4.1.5",
+    "tailwindcss": "^3.1.8",
     "ts-node": "^10.2.1"
   },
   "eslintConfig": {

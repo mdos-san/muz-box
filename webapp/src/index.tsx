@@ -1,10 +1,7 @@
 /* istanbul ignore file */
+import App from "./App";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
-
-import "@sharpmds/core/index.css";
-import "./index.css";
 
 const { protocol, hostname } = window.location;
 

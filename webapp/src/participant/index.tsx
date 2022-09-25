@@ -1,7 +1,7 @@
 import YoutubeInput from "../components/YoutubeInput";
 import SocketStatus from "../components/SocketStatus";
 import { Center, Separator, Services } from "@sharpmds/core";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 import MuzBoxServices from "../services";
 

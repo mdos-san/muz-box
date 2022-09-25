@@ -1,4 +1,7 @@
-import ListenableVar, { ListenableVarGet, ListenableVarListen } from "@mdos-san/listenable-variable";
+import ListenableVar, {
+  ListenableVarGet,
+  ListenableVarListen,
+} from "@mdos-san/listenable-variable";
 import jsonwebtoken from "jsonwebtoken";
 import { v4 } from "uuid";
 import Services from "./index";

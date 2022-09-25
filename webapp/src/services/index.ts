@@ -1,3 +1,4 @@
+import ModalService from "./ModalService";
 import PlaylistService from "./PlaylistService";
 import RoomService from "./RoomService";
 import SocketService from "./SocketService";
@@ -8,6 +9,7 @@ const Services = () => {
   const socket = SocketService(room);
   const playlist = PlaylistService(socket);
   const youtube = YoutubeService((global as any).YT, playlist);
+  const modal = ModalService();
 
   const init = async () => {
     room.initRoom();
@@ -28,6 +30,7 @@ const Services = () => {
     youtube,
     init,
     clean,
+    modal,
   };
 };
 

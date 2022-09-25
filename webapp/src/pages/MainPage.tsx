@@ -1,14 +1,10 @@
-import { useState, useEffect } from "react";
-import { Button } from "@sharpmds/core";
-
+import Card from "../ui/Card";
+import Layout from "../components/Layout";
+import Modal from "../ui/Modal";
 import Services from "../services";
-import MusicCounter from "../components/MusicCounter";
-import MusicDisplayer from "../components/MusicDisplayer";
-import QRCode from "../components/QRCode";
-import SocketStatus from "../components/SocketStatus";
-import YoutubeInput from "../components/YoutubeInput";
 import YoutubePlayer from "../components/YoutubePlayer";
-import RoomDisplayer from "../components/RoomDisplayer";
+import { WrenchScrewdriverIcon } from "@heroicons/react/24/outline";
+import { useEffect } from "react";
 
 const MainPage = () => {
   useEffect(() => {
@@ -16,23 +12,22 @@ const MainPage = () => {
   }, []);
 
   return (
-    <div className="app">
-      <img className="logo" src="logo-muzbox.svg" alt="MuzBox" />
-      <YoutubeInput />
-      <div className="main-part">
-        <QRCode />
-        <YoutubePlayer />
+    <Layout>
+      <div className="w-full h-full flex flex-col lg:flex-row">
+        <div className="w-full h-full flex items-center flex-col">
+          <YoutubePlayer />
+          <Card className="w-full h-1/4 mt-4 flex items-center justify-center">
+            <WrenchScrewdriverIcon className="h-16 text-neutral-400" />
+          </Card>
+        </div>
+
+        <Card className="w-full mt-4 flex items-center justify-center lg:mt-0 lg:ml-4 lg:w-1/3">
+          <WrenchScrewdriverIcon className="h-16 text-neutral-400" />
+        </Card>
       </div>
-      <Button onClick={() => Services.youtube.loadNextMusic()}>
-        Musique suivante
-      </Button>
-      <div className="info">
-        <MusicCounter />
-        <MusicDisplayer />
-      </div>
-      <SocketStatus />
-      <RoomDisplayer />
-    </div>
+
+      <Modal />
+    </Layout>
   );
 };
 
